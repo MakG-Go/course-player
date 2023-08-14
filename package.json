@@ -1,0 +1,27 @@
+{
+  "name": "get-start",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "animate.css": "^4.1.1",
+    "bootstrap": "^5.3.1",
+    "gsap": "^3.12.2",
+    "lil-gui": "^0.18.2",
+    "three": "^0.155.0",
+    "vue": "^3.3.4",
+    "vue-router": "^4.2.4",
+    "vue3-perfect-scrollbar": "^1.6.1",
+    "vuex": "^4.0.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.2.3",
+    "sass": "^1.64.2",
+    "vite": "^4.4.5"
+  }
+}

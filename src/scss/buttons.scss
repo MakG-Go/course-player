@@ -1,0 +1,40 @@
+.btn {
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    outline: 0;
+    border: none;
+    vertical-align: middle;
+    background-color: #0083c4;
+    color: white;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    padding: 12px 36px;
+    text-transform: none;
+    text-shadow: none;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    transition-property: color, background-color, border-color, box-shadow, transform;
+    transition-duration: 0.25s;
+    transition-timing-function: ease;
+
+    @media screen and (max-width: 719px) {
+        -webkit-user-select: none;
+        -webkit-touch-callout: none;
+    }
+    &:not(:last-child) {
+        margin-right: 0.5rem;
+    }
+    &:hover {
+        background-color: #0083c48e;
+    }
+    &:focus {
+        outline: unset;
+    }
+
+    &__counter {
+        margin-right: 0.5rem;
+    }
+}
