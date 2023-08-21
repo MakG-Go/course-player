@@ -1,4 +1,4 @@
-import { courseMenu, courseGlossary } from "@/scripts/menuData"
+import { courseMenu, courseGlossary } from "&/menuData"
 
 export default {
     namespaced: true,

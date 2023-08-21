@@ -1,10 +1,17 @@
+import { LMS } from "./LMSAPI.js"
+import SCORM_2004 from "./SCORM_2004_API.js"
+import { SCORM } from 'pipwerks-scorm-api-wrapper';
+
+console.log(SCORM)
 export default {
     namespaced: true,
     state: {
         visitedPages: [],
-        start: false
+        start: false,
+        API: SCORM_2004
     },
     getters: {
+        getApi: (state) => state.API,
         start: (state) => state.start,
         visit: (state) => state.visitedPages,
         visitTotal: (state, getters, rootState, rootGetters) => rootGetters['header/menu'].length,
@@ -19,6 +26,7 @@ export default {
         },
         getStart(state) {
             state.start = true
+
         }
     },
 
