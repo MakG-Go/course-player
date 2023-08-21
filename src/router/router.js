@@ -1,4 +1,6 @@
+/** Пример работы роутера */
 
+/** Импортируем компоненты страниц */
 
 import { createRouter, createWebHistory } from "vue-router"
 import splash from '@/views/Splash.vue'
@@ -11,7 +13,7 @@ import page_2 from '@/views/pages/Page_2.vue'
 import page_3 from '@/views/pages/Page_3.vue'
 import { gsap } from 'gsap';
 
-
+/** Задём роуты */
 
 const routes = [
     // { path: '/', name: 'splash-page', component: splash },
@@ -22,8 +24,9 @@ const routes = [
     { path: '/page_1', name: 'page_1', component: page_1, props: true },
     { path: '/page_2', name: 'page_2', component: page_2, props: true },
     { path: '/page_3', name: 'page_3', component: page_3, props: true },
-
 ]
+
+/** Экспортируем роутер */
 
 export default createRouter({
     routes,

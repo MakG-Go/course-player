@@ -10,24 +10,28 @@ class SCORM2004 {
 			this.API = this.getAPI();
 		}
 
-		if (this.API !== null) {
-			const result = this.API.Initialize("");
+		if (this.API) {
 
-			if (result === "true") {
-				console.log("SCORM initialized successfully.");
-				getLocation();
-			} else if (result === "false") {
-				console.log("Failed to initialize SCORM.");
-			} else {
-				console.log("Unexpected result from Initialize: " + result);
+			{
+				const result = this.API.Initialize("");
+
+				if (result === 'true') {
+					console.log("SCORM initialized successfully.");
+					this.getLocation();
+				} else if (result === 'false') {
+					console.log("Failed to initialize SCORM.");
+				} else {
+					console.log("Unexpected result from Initialize: " + result);
+				}
 			}
 		} else {
 			console.log("Unable to locate the LMS API Adapter.");
 		}
+
 	};
 
 	getLocation = () => {
-		const locationResult = API.GetValue("cmi.location");
+		const locationResult = this.API.GetValue("cmi.location");
 
 		if (locationResult !== "") {
 			console.log("Current location: " + locationResult);
@@ -38,7 +42,7 @@ class SCORM2004 {
 
 	setLocation = () => {
 		const currentPage = window.location.href;
-		const locationResult = API.GetValue("cmi.location");
+		const locationResult = this.API.GetValue("cmi.location");
 
 		if (locationResult === "") {
 			API.SetValue("cmi.location", currentPage);
@@ -78,22 +82,37 @@ class SCORM2004 {
 	};
 
 	getAPI = () => {
-		let API = null;
-
+		console.log(window.API_1484_11)
 		if (window.API_1484_11) {
-			API = window.API_1484_11;
-		} else if (window.parent.API_1484_11) {
-			API = window.parent.API_1484_11;
+			console.log('1')
+			return window.API_1484_11;
+		} else if (window.parent && window.parent.API_1484_11) {
+			console.log('2')
+			return window.parent.API_1484_11;
 		} else if (window.opener && window.opener.API_1484_11) {
-			API = window.opener.API_1484_11;
+			console.log('3')
+			return window.opener.API_1484_11;
+		} else {
+			console.log('4')
+			console.log("Unable to locate the SCORM API.");
+			return null;
 		}
-
-		return API;
 	};
+
+	Initialize = () => {
+		// Your initialization code here
+		console.log("SCORM API initialized");
+		return "true";
+	};
+
+	GetValue = (element) => {
+		// Your code to retrieve the value of the specified element
+		return "some_value";
+	}
 }
 
 let SCORM_2004 = new SCORM2004()
+
 window.API_1484_11 = SCORM_2004
-// SCORM_2004.initializeSCORM()
 
 export default SCORM_2004

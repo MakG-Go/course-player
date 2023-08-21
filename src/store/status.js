@@ -1,8 +1,7 @@
-import { LMS } from "./LMSAPI.js"
-import SCORM_2004 from "./SCORM_2004_API.js"
-import { SCORM } from 'pipwerks-scorm-api-wrapper';
 
-console.log(SCORM)
+import SCORM_2004 from "@/ScormApi/ScormApi.js"
+
+
 export default {
     namespaced: true,
     state: {
@@ -25,8 +24,9 @@ export default {
             state.visitedPages.push({ name: page })
         },
         getStart(state) {
+            console.log()
             state.start = true
-
+            state.API.initializeSCORM()
         }
     },
 

@@ -7,7 +7,7 @@ import { viteStaticCopy } from 'vite-plugin-static-copy'
 export default defineConfig({
   base: "./",
   root: './',
-  publicDir: './src/assets',
+  publicDir: './src/Course_branch/Стиралки/assets',/** Путь до статичесского контента img, video, ...*/
   plugins: [
     vue(),
   ],
@@ -17,12 +17,12 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
-      '&': path.resolve(__dirname, './src/Course_branch/Стиралки')
+      '&': path.resolve(__dirname, './src/Course_branch/Стиралки') /** Путь до конкретного курса*/
     }
   },
   build: {
     assetsDir: '',
-    outDir: "./cource/",
+    outDir: "./course/",
     emptyOutDir: true,
     sourcemap: false,
     minify: true,
