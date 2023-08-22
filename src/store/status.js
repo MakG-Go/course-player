@@ -24,9 +24,18 @@ export default {
             state.visitedPages.push({ name: page })
         },
         getStart(state) {
-            console.log()
             state.start = true
             state.API.initializeSCORM()
+            state.API.setEntry();
+        },
+        getExit(state) {
+            state.API.terminatSCORM()
+        },
+        setLocation(state) {
+            state.API.setLocation()
+        },
+        setStatusCompleted(state) {
+            state.API.setStatusCompleted()
         }
     },
 
@@ -39,7 +48,20 @@ export default {
         },
         getStart({ commit }) {
             commit('getStart')
+        },
+        getExit({ commit }) {
+            commit('getExit')
+        },
+        setStatusCompleted({ commit, getters }) {
+            if (getters.visitedAll) {
+                commit('setStatusCompleted')
+            }
+        },
+        setLocation({ commit }) {
+            commit('setLocation')
         }
+
+
 
     },
 }

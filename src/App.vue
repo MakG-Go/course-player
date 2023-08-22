@@ -1,6 +1,9 @@
 <template>
     <div>
+        <!-- Сплеш -->
         <Splash :class="{ disable: start }"></Splash>
+
+        <!-- Контейнер глобального scrollbar -->
 
         <perfect-scrollbar
             v-show="start"
@@ -10,6 +13,8 @@
         >
             <div class="wrapper">
                 <div class="container">
+                    <!-- Меню/Хедер -->
+
                     <Header> </Header>
 
                     <router-view v-slot="{ Component }">
@@ -27,6 +32,8 @@
                         </transition>
                     </router-view>
 
+                    <!-- Кнопки навигации -->
+
                     <NavigationButton>
                         <h2 class="btn__counter">
                             {{ checkRouteName + 1 }}/{{ menu.length }}
@@ -39,8 +46,8 @@
 </template>
 
 <script>
-import Header from "./components/Header.vue";
-import NavigationButton from "./components/NavigationButton.vue";
+import Header from "@/components/Header.vue";
+import NavigationButton from "@/components/NavigationButton.vue";
 import Splash from "&/views/Splash.vue";
 import { mapGetters, mapActions } from "vuex";
 export default {
@@ -58,6 +65,7 @@ export default {
     },
     methods: {
         ...mapActions("status", ["addVisitPage"]),
+        ...mapActions("status", ["setLocation"]),
         /** Блокируем скролл при открытии меню */
         onGlobalScroll(event) {
             if (this.menuState) {
@@ -69,6 +77,7 @@ export default {
     },
     watch: {
         $route() {
+            this.setLocation();
             this.addVisitPage(this.$route.name);
         },
     },
