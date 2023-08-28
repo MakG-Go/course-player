@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import { VitePluginFonts } from 'vite-plugin-fonts';
 import path from "path"
-import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -10,6 +10,26 @@ export default defineConfig({
   publicDir: './src/Course_branch/Стиралки/assets',/** Путь до статичесского контента img, video, ...*/
   plugins: [
     vue(),
+    VitePluginFonts({
+      custom: {
+        families: [{
+          name: 'Nunito Sans',
+          local: 'Nunito-Regular',
+          src: '/fonts/NunitoSans_Regular.ttf'
+        },
+        {
+          name: 'Nunito Sans',
+          local: 'Nunito-Bold',
+          src: '/fonts/NunitoSans_Bold.ttf'
+        },
+        {
+          name: 'Nunito Sans',
+          local: 'Nunito-SemiBold',
+          src: '/fonts/NunitoSans_SemiBold.ttf'
+        },
+        ],
+      },
+    }),
   ],
   server: {
     port: 3000

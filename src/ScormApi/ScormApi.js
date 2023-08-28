@@ -1,3 +1,19 @@
+const target = {
+	"cmi.location": "5",
+	"cmi.score.raw": "0",
+	"cmi.completion_status": "incomplete",
+	"cmi.success_status": "unknown"
+}
+
+const parseStorageData = () => {
+	JSON.parse(
+		localStorage.getItem("scorm-mock-data") || ""
+	)
+}
+
+console.log(parseStorageData)
+
+
 class SCORM2004 {
 
 	constructor() {
@@ -40,6 +56,7 @@ class SCORM2004 {
 
 
 	getLocation() {
+
 		const locationResult = this.API.GetValue("cmi.location");
 
 		if (locationResult !== "") {
@@ -50,8 +67,10 @@ class SCORM2004 {
 	};
 
 	setEntry() {
-		let entry = this.API.GetValue('cmi.entry');
-		console.log(entry)
+		this.API.SetValue("cmi.completion_status", "incomplete");
+		this.API.SetValue("cmi.progress_measure", 0.0);
+		this.API.Commit("")
+
 	}
 
 	setLocation() {
@@ -97,18 +116,17 @@ class SCORM2004 {
 
 	getAPI() {
 
-		console.log(window.API_1484_11)
 		if (window.API_1484_11) {
-			console.log('1')
+
 			return window.API_1484_11;
 		} else if (window.parent && window.parent.API_1484_11) {
-			console.log('2')
+
 			return window.parent.API_1484_11;
 		} else if (window.opener && window.opener.API_1484_11) {
-			console.log('3')
+
 			return window.opener.API_1484_11;
 		} else {
-			console.log('4')
+
 			console.log("Unable to locate the SCORM API.");
 			return null;
 		}

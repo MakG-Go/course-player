@@ -55,6 +55,7 @@ export default {
     computed: {
         ...mapGetters("header", ["curentPage", "menu", "menuState"]),
         ...mapGetters("status", ["start"]),
+
         checkRouteName() {
             if (this.$route.name === undefined) {
                 return 1;
