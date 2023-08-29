@@ -54,7 +54,7 @@ export default {
     components: { Header, NavigationButton, Splash },
     computed: {
         ...mapGetters("header", ["curentPage", "menu", "menuState"]),
-        ...mapGetters("status", ["start"]),
+        ...mapGetters("status", ["start", "lastPage"]),
 
         checkRouteName() {
             if (this.$route.name === undefined) {
@@ -77,9 +77,15 @@ export default {
         },
     },
     watch: {
+        start() {
+            this.start ? this.addVisitPage(this.$route.name) : "";
+        },
         $route() {
-            this.setLocation();
-            this.addVisitPage(this.$route.name);
+            console.log(this.lastPage);
+            if (this.start) {
+                this.setLocation(this.$route.path);
+                this.addVisitPage(this.$route.name);
+            }
         },
     },
 };

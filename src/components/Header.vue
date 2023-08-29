@@ -12,6 +12,10 @@
                     <span></span>
                     <span></span>
                 </button>
+                <p style="position: relative; z-index: 99">
+                    {{ visit }}
+                    {{ visit.length }}
+                </p>
             </div>
         </div>
 
@@ -98,6 +102,7 @@ export default {
         },
     },
     computed: {
+        ...mapGetters("status", ["visitTotal", "visit"]),
         ...mapGetters("header", ["menuState"]),
         getMenuClass() {
             return {

@@ -1,17 +1,6 @@
-const target = {
-	"cmi.location": "5",
-	"cmi.score.raw": "0",
-	"cmi.completion_status": "incomplete",
-	"cmi.success_status": "unknown"
-}
+import { ScormApi } from "@/globals/scormData";
 
-const parseStorageData = () => {
-	JSON.parse(
-		localStorage.getItem("scorm-mock-data") || ""
-	)
-}
-
-console.log(parseStorageData)
+console.log(ScormApi.GetValue('cmi.location'))
 
 
 class SCORM2004 {
@@ -32,12 +21,19 @@ class SCORM2004 {
 				const result = this.API.Initialize("");
 
 				if (result === 'true') {
+
 					console.log("SCORM initialized successfully.");
-					this.getLocation();
+
+					// this.getLocation();
+
 				} else if (result === 'false') {
+
 					console.log("Failed to initialize SCORM.");
+
 				} else {
+
 					console.log("Unexpected result from Initialize: " + result);
+
 				}
 			}
 		} else {
@@ -47,6 +43,7 @@ class SCORM2004 {
 	};
 
 	terminatSCORM() {
+
 		const result = this.API.Terminate('')
 
 		if (result !== 'true') {
@@ -54,8 +51,9 @@ class SCORM2004 {
 		}
 	};
 
-
 	getLocation() {
+
+		console.log('here')
 
 		const locationResult = this.API.GetValue("cmi.location");
 
@@ -66,40 +64,60 @@ class SCORM2004 {
 		}
 	};
 
-	setEntry() {
-		this.API.SetValue("cmi.completion_status", "incomplete");
-		this.API.SetValue("cmi.progress_measure", 0.0);
-		this.API.Commit("")
-
-	}
 
 	setLocation() {
 		const currentPage = window.location.href;
+
 		const locationResult = this.API.GetValue("cmi.location");
 
 		if (locationResult === "") {
+
 			this.API.SetValue("cmi.location", currentPage);
+
 			console.log("Location saved: " + currentPage);
-		} else {
+
+		}
+		else if (this.API.GetValue("cmi.location") !== currentPage) {
+
+			this.API.SetValue("cmi.location", currentPage);
+
+			console.log("New Location saved: " + currentPage);
+		}
+		else {
 			console.log("Location already exists: " + locationResult);
 		}
+
+		this.Commit()
 	};
+
+	getLastPage() {
+		let currentLocation = this.API.GetValue("cmi.location")
+		console.log(currentLocation, 'last')
+		return currentLocation.split('/').slice(-1).join()
+	}
+
+	setEntry() {
+
+		if (this.checkStart() !== "completed") {
+			this.API.SetValue("cmi.exit", "suspend")
+			this.API.SetValue("cmi.completion_status", "incomplete");
+			this.API.SetValue("cmi.progress_measure", 0.0);
+			this.Commit()
+		}
+
+	}
 
 	setScore(score) {
 		this.API.SetValue("cmi.score.raw", score);
 		console.log("Score set to: " + score);
 	};
 
-	setStatusInProgress() {
-		this.API.SetValue("cmi.completion_status", "incomplete");
-		this.API.SetValue("cmi.success_status", "unknown");
-		console.log("Status set to 'in progress'.");
-	};
 
 	setStatusCompleted() {
+		console.log('get end')
 		this.API.SetValue("cmi.completion_status", "completed");
-		this.API.SetValue("cmi.success_status", "passed");
-		console.log("Status set to 'completed'.");
+		this.API.SetValue("cmi.progress_measure", 1.0);
+		this.Commit()
 	};
 
 	Commit() {
@@ -132,24 +150,21 @@ class SCORM2004 {
 		}
 	};
 
+	checkStart() {
+		return this.API.GetValue("cmi.completion_status")
+	}
 
-	convertJsonToStr() {
-		if (typeof LED.VARS === 'object') {
-			LED.SCORM.SetValue('cmi.suspend_data', JSON.stringify(LED.VARS));
-		}
-	};
+	// createObjective({ key, name, max, min, raw, scale, description, success, completion }) {
 
-	createObjective({ key, name, max, min, raw, scale, description, success, completion }) {
-
-		LED.SCORM.SetValue('cmi.objectives.' + key + '.id', name);
-		LED.SCORM.SetValue('cmi.objectives.' + key + '.score.scaled', scale);
-		LED.SCORM.SetValue('cmi.objectives.' + key + '.score.raw', raw);
-		LED.SCORM.SetValue('cmi.objectives.' + key + '.score.min', min);
-		LED.SCORM.SetValue('cmi.objectives.' + key + '.score.max', max);
-		LED.SCORM.SetValue('cmi.objectives.' + key + '.description', description);
-		LED.SCORM.SetValue('cmi.objectives.' + key + '.success_status', success);
-		LED.SCORM.SetValue('cmi.objectives.' + key + '.completion_status', completion);
-	};
+	// 	LED.SCORM.SetValue('cmi.objectives.' + key + '.id', name);
+	// 	LED.SCORM.SetValue('cmi.objectives.' + key + '.score.scaled', scale);
+	// 	LED.SCORM.SetValue('cmi.objectives.' + key + '.score.raw', raw);
+	// 	LED.SCORM.SetValue('cmi.objectives.' + key + '.score.min', min);
+	// 	LED.SCORM.SetValue('cmi.objectives.' + key + '.score.max', max);
+	// 	LED.SCORM.SetValue('cmi.objectives.' + key + '.description', description);
+	// 	LED.SCORM.SetValue('cmi.objectives.' + key + '.success_status', success);
+	// 	LED.SCORM.SetValue('cmi.objectives.' + key + '.completion_status', completion);
+	// };
 
 }
 
