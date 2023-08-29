@@ -1,3 +1,7 @@
+import { SCORM } from 'pipwerks-scorm-api-wrapper';
+import { ScormApi } from "@/ScormData/api.js"
+SCORM.version = "2004"
+
 export default {
     namespaced: true,
     state: {
@@ -19,6 +23,14 @@ export default {
         },
         getStart(state) {
             state.start = true
+            SCORM.init()
+            SCORM.set(ScormApi.Initialize())
+            SCORM.set(ScormApi.GetValue("cmi.score.raw"))
+            SCORM.set(ScormApi.SetValue("cmi.location", window.location.href))
+            SCORM.set(ScormApi.GetValue("cmi.location"))
+            SCORM.set(ScormApi.SetValue("cmi.objectives.1.score.min", 80))
+
+
         }
     },
 
