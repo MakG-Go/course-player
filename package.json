@@ -13,6 +13,7 @@
     "bootstrap": "^5.3.1",
     "gsap": "^3.12.2",
     "lil-gui": "^0.18.2",
+    "pipwerks-scorm-api-wrapper": "^0.1.2",
     "three": "^0.155.0",
     "vite-plugin-fonts": "^0.7.0",
     "vue": "^3.3.4",

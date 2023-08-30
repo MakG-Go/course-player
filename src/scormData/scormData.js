@@ -9,10 +9,10 @@ const scormData = {
 
 const parseStorageData = () =>
 	JSON.parse(
-		localStorage.getItem("scorm-mock-data") || ""
+		localStorage.getItem("scorm-mock-data")
 	);
 
-export const ScormApi = {
+export const ScormMockApi = {
 	Initialize() {
 		const storageData = parseStorageData();
 
@@ -21,14 +21,6 @@ export const ScormApi = {
 			JSON.stringify({ ...scormData, ...(storageData || {}) })
 		);
 
-		return "true";
-	},
-
-	Terminate() {
-		return "true";
-	},
-
-	Commit() {
 		return "true";
 	},
 
@@ -46,4 +38,5 @@ export const ScormApi = {
 			localStorage.setItem("scorm-mock-data", JSON.stringify(storageData));
 		}
 	}
+
 };

@@ -1,173 +1,147 @@
-import { ScormApi } from "@/globals/scormData";
 
-console.log(ScormApi.GetValue('cmi.location'))
+import pipwerks from 'pipwerks-scorm-api-wrapper';
+import { SCORM } from 'pipwerks-scorm-api-wrapper';
 
+import { ScormMockApi } from "@/scormData/scormData";
+/** Импортируем цели курса */
+import { Objectives } from '&/objectivs';
+
+/** Для отладки SCORM передать true */
+
+pipwerks.debug.isActive = true
+
+/** Версия SCORM */
+
+SCORM.version = "2004"
 
 class SCORM2004 {
 
 	constructor() {
-		this.API = null;
-		this.locationData = "";
+		this.SCORM = SCORM;
 	}
 
-	initializeSCORM() {
-		if (this.API === null) {
-			this.API = this.getAPI();
+	initialize() {
+		ScormMockApi.Initialize()
+		this.SCORM.init();
+		this.getLocation()
+
+		if (this.SCORM.get("cmi.objectives._count") && parseInt(this.SCORM.get("cmi.objectives._count") > 0)) {
+
+			console.log("The course has objectives.");
+		}
+		else {
+
+			this.creareObjectives(Objectives)
+
+			console.log("The course does not have objectives.");
 		}
 
-		if (this.API !== null) {
+		this.SCORM.get('cmi.suspend_data')
 
-			{
-				const result = this.API.Initialize("");
-
-				if (result === 'true') {
-
-					console.log("SCORM initialized successfully.");
-
-					// this.getLocation();
-
-				} else if (result === 'false') {
-
-					console.log("Failed to initialize SCORM.");
-
-				} else {
-
-					console.log("Unexpected result from Initialize: " + result);
-
-				}
-			}
-		} else {
-			console.log("Unable to locate the LMS API Adapter.");
-		}
 
 	};
 
 	terminatSCORM() {
-
-		const result = this.API.Terminate('')
-
-		if (result !== 'true') {
-			console.error('Failed to terminate communication.');
-		}
+		this.SCORM.terminate()
+		console.log('terminate')
 	};
 
 	getLocation() {
 
-		console.log('here')
-
-		const locationResult = this.API.GetValue("cmi.location");
+		const locationResult = this.SCORM.get("cmi.location")
 
 		if (locationResult !== "") {
-			console.log("Current location: " + locationResult);
+
+			// console.log("Current location: " + locationResult);
+
 		} else {
+
 			console.log("Location not available.");
 		}
+
+		console.log('getLocation')
 	};
 
-
 	setLocation() {
-		const currentPage = window.location.href;
 
-		const locationResult = this.API.GetValue("cmi.location");
+		const currentPage = window.location.href;
+		const locationResult = this.SCORM.get("cmi.location");
 
 		if (locationResult === "") {
 
-			this.API.SetValue("cmi.location", currentPage);
+			this.SCORM.set("cmi.location", currentPage);
 
-			console.log("Location saved: " + currentPage);
+			// console.log("Location saved: " + currentPage);
 
 		}
-		else if (this.API.GetValue("cmi.location") !== currentPage) {
+		else if (this.SCORM.get("cmi.location") !== currentPage) {
 
-			this.API.SetValue("cmi.location", currentPage);
+			this.SCORM.set("cmi.location", currentPage);
 
-			console.log("New Location saved: " + currentPage);
+			// console.log("New Location saved: " + currentPage);
 		}
 		else {
 			console.log("Location already exists: " + locationResult);
 		}
 
-		this.Commit()
+		ScormMockApi.SetValue("cmi.location", this.SCORM.get("cmi.location"))
+
+		this.SCORM.set('cmi.suspend_data', locationResult)
+
+		console.log('setLocation')
 	};
 
 	getLastPage() {
-		let currentLocation = this.API.GetValue("cmi.location")
-		console.log(currentLocation, 'last')
-		return currentLocation.split('/').slice(-1).join()
-	}
 
-	setEntry() {
+		const route = ScormMockApi.GetValue("cmi.location")
 
-		if (this.checkStart() !== "completed") {
-			this.API.SetValue("cmi.exit", "suspend")
-			this.API.SetValue("cmi.completion_status", "incomplete");
-			this.API.SetValue("cmi.progress_measure", 0.0);
-			this.Commit()
+		console.log(route)
+		console.log(typeof (route))
+
+		if (route == null || route == undefined || route == "null") {
+			return "/"
+		}
+		else {
+			return "/" + ScormMockApi.GetValue("cmi.location").split('/').slice(-1).join()
 		}
 
 	}
-
-	setScore(score) {
-		this.API.SetValue("cmi.score.raw", score);
-		console.log("Score set to: " + score);
-	};
-
 
 	setStatusCompleted() {
-		console.log('get end')
-		this.API.SetValue("cmi.completion_status", "completed");
-		this.API.SetValue("cmi.progress_measure", 1.0);
-		this.Commit()
+
+		this.SCORM.set("cmi.completion_status", "completed")
+		this.SCORM.set("cmi.progress_measure", 1.0);
+		this.SCORM.save(true)
+		console.log('setStatusCompleted')
 	};
 
-	Commit() {
-		const result = this.API.Commit("");
+	creareObjectives(target) {
+		target.forEach((objective, id) => {
+			this.SCORM.set("cmi.objectives." + id + ".id", objective.id);
+			this.SCORM.set("cmi.objectives." + id + ".score.raw", parseInt(objective.score.raw));
+			this.SCORM.set("cmi.objectives." + id + ".score.max", parseInt(objective.score.max));
+			this.SCORM.set("cmi.objectives." + id + ".score.min", parseInt(objective.score.min));
+			this.SCORM.set("cmi.objectives." + id + ".success_status", objective.success_status);
+			this.SCORM.set("cmi.objectives." + id + ".completion_status", objective.completion_status);
+		})
 
-		if (result === "true") {
-			console.log("Data saved successfully.");
-		} else if (result === "false") {
-			console.log("Failed to save data.");
-		} else {
-			console.log("Unexpected result from Commit: " + result);
-		}
-	};
-
-	getAPI() {
-
-		if (window.API_1484_11) {
-
-			return window.API_1484_11;
-		} else if (window.parent && window.parent.API_1484_11) {
-
-			return window.parent.API_1484_11;
-		} else if (window.opener && window.opener.API_1484_11) {
-
-			return window.opener.API_1484_11;
-		} else {
-
-			console.log("Unable to locate the SCORM API.");
-			return null;
-		}
-	};
-
-	checkStart() {
-		return this.API.GetValue("cmi.completion_status")
 	}
 
-	// createObjective({ key, name, max, min, raw, scale, description, success, completion }) {
+	saveData(data) {
 
-	// 	LED.SCORM.SetValue('cmi.objectives.' + key + '.id', name);
-	// 	LED.SCORM.SetValue('cmi.objectives.' + key + '.score.scaled', scale);
-	// 	LED.SCORM.SetValue('cmi.objectives.' + key + '.score.raw', raw);
-	// 	LED.SCORM.SetValue('cmi.objectives.' + key + '.score.min', min);
-	// 	LED.SCORM.SetValue('cmi.objectives.' + key + '.score.max', max);
-	// 	LED.SCORM.SetValue('cmi.objectives.' + key + '.description', description);
-	// 	LED.SCORM.SetValue('cmi.objectives.' + key + '.success_status', success);
-	// 	LED.SCORM.SetValue('cmi.objectives.' + key + '.completion_status', completion);
-	// };
+		let state = JSON.parse(JSON.stringify(data.visitedPages))
+
+		if (state !== undefined && typeof state === "object") {
+
+			this.SCORM.set('cmi.suspend_data', JSON.stringify(state))
+
+			ScormMockApi.SetValue('cmi.suspend_data', JSON.stringify(state))
+
+		}
+	}
 
 }
 
-let SCORM_2004 = new SCORM2004()
+let _SCORM = new SCORM2004()
 
-export default SCORM_2004
+export default _SCORM

@@ -52,6 +52,7 @@ import Splash from "&/views/Splash.vue";
 import { mapGetters, mapActions } from "vuex";
 export default {
     components: { Header, NavigationButton, Splash },
+
     computed: {
         ...mapGetters("header", ["curentPage", "menu", "menuState"]),
         ...mapGetters("status", ["start", "lastPage"]),
@@ -65,9 +66,10 @@ export default {
         },
     },
     methods: {
-        ...mapActions("status", ["addVisitPage"]),
-        ...mapActions("status", ["setLocation"]),
+        ...mapActions("status", ["addVisitPage", "setLocation", "getExit"]),
+
         /** Блокируем скролл при открытии меню */
+
         onGlobalScroll(event) {
             if (this.menuState) {
                 let scrollContainer = this.$refs.globalScroll;
@@ -78,15 +80,23 @@ export default {
     },
     watch: {
         start() {
-            this.start ? this.addVisitPage(this.$route.name) : "";
+            if (this.start) {
+                this.addVisitPage(this.$route.name);
+                console.log(this.lastPage);
+                if (this.lastPage !== undefined && this.lastPage !== null) {
+                    this.$router.push({ path: this.lastPage });
+                }
+            }
         },
         $route() {
-            console.log(this.lastPage);
             if (this.start) {
-                this.setLocation(this.$route.path);
+                this.setLocation();
                 this.addVisitPage(this.$route.name);
             }
         },
+    },
+    beforeUnmount() {
+        this.getExit();
     },
 };
 </script>

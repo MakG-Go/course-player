@@ -19,7 +19,8 @@ createApp(App)
         options: {
             suppressScrollX: true
         }
-    }).use(gsapPlugin)
+    })
+    .use(gsapPlugin)
     .use(router)
     .use(store)
 
