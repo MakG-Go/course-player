@@ -6,6 +6,18 @@
 @import "@/scss/webGl";
 @import "@/scss/keybord-practice-component";
 
+$Regular: "Nunito-Regular", sans-serif;
+$Bold: "Nunito-Bold", sans-serif;
+
+body {
+    font-family: $Regular, sans-serif;
+    font-size: 16px;
+
+    @media screen and (max-width: 719px) {
+        font-size: 12px;
+    }
+}
+
 .container,
 .header__container {
     margin: 0 auto;

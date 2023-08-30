@@ -4,7 +4,7 @@ import 'animate.css/animate.min.css'
 import 'vue3-perfect-scrollbar/dist/vue3-perfect-scrollbar.css'
 import '@/scss/style.scss'
 
-import router from "@/router/router.js"
+import router from "&/router/router.js"
 import store from "@/store/index.js"
 import gsapPlugin from "@/scripts/globalGsap"
 import App from '@/App.vue'
@@ -19,7 +19,8 @@ createApp(App)
         options: {
             suppressScrollX: true
         }
-    }).use(gsapPlugin)
+    })
+    .use(gsapPlugin)
     .use(router)
     .use(store)
 

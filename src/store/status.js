@@ -1,19 +1,30 @@
-import { SCORM } from 'pipwerks-scorm-api-wrapper';
-import { ScormApi } from "@/ScormData/api.js"
-SCORM.version = "2004"
+
+import _SCORM from "@/scormApi/scormApi.js"
+
 
 export default {
+
     namespaced: true,
+
     state: {
         visitedPages: [],
-        start: false
+        start: false,
+        API: _SCORM,
     },
+
     getters: {
+
         start: (state) => state.start,
+
         visit: (state) => state.visitedPages,
+
         visitTotal: (state, getters, rootState, rootGetters) => rootGetters['header/menu'].length,
-        checkVisit: (state) => (page) => state.visitedPages.some(item => item.name === page),
-        visitedAll: (state, getters) => state.visitedPages.length === getters.visitTotal
+
+        checkVisit: (state) => (page) => state.visitedPages.find(item => item.name === page),
+
+        visitedAll: (state, getters) => state.visitedPages.length === getters.visitTotal,
+
+        lastPage: (state) => state.API.getLastPage()
 
 
     },
@@ -21,28 +32,49 @@ export default {
         addVisitPage(state, page) {
             state.visitedPages.push({ name: page })
         },
+
         getStart(state) {
             state.start = true
-            SCORM.init()
-            SCORM.set(ScormApi.Initialize())
-            SCORM.set(ScormApi.GetValue("cmi.score.raw"))
-            SCORM.set(ScormApi.SetValue("cmi.location", window.location.href))
-            SCORM.set(ScormApi.GetValue("cmi.location"))
-            SCORM.set(ScormApi.SetValue("cmi.objectives.1.score.min", 80))
+            state.API.initialize()
 
+        },
+        getExit(state) {
+            state.API.terminatSCORM()
+        },
+        setLocation(state) {
 
+            state.API.setLocation()
+        },
+        setStatusCompleted(state) {
+
+            state.API.setStatusCompleted()
         }
     },
 
     actions: {
         addVisitPage({ commit, getters }, page) {
 
-            if (!getters.checkVisit(page)) {
+            if (!getters.checkVisit(page) && page != undefined) {
                 commit('addVisitPage', page)
             }
         },
         getStart({ commit }) {
             commit('getStart')
+        },
+
+        getExit({ commit }) {
+
+            commit('getExit')
+        },
+
+        setStatusCompleted({ commit, getters }) {
+            if (getters.visitedAll) {
+                commit('setStatusCompleted')
+            }
+
+        },
+        setLocation({ commit }) {
+            commit('setLocation')
         }
 
     },
