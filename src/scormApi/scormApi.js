@@ -1,4 +1,3 @@
-
 import pipwerks from 'pipwerks-scorm-api-wrapper';
 import { SCORM } from 'pipwerks-scorm-api-wrapper';
 
@@ -8,12 +7,11 @@ import { Objectives } from '&/objectivs';
 
 /** Для отладки SCORM передать true */
 
-pipwerks.debug.isActive = false
+pipwerks.debug.isActive = true
 
 /** Версия SCORM */
 
 SCORM.version = "2004"
-
 
 class SCORM2004 {
 
@@ -38,6 +36,7 @@ class SCORM2004 {
 		}
 
 		this.SCORM.get('cmi.suspend_data')
+
 
 	};
 
@@ -117,7 +116,6 @@ class SCORM2004 {
 
 	creareObjectives(target) {
 		target.forEach((objective, id) => {
-			console.log(objective)
 			this.SCORM.set("cmi.objectives." + id + ".id", objective.id);
 			this.SCORM.set("cmi.objectives." + id + ".score.raw", parseInt(objective.score.raw));
 			this.SCORM.set("cmi.objectives." + id + ".score.max", parseInt(objective.score.max));
@@ -126,6 +124,19 @@ class SCORM2004 {
 			this.SCORM.set("cmi.objectives." + id + ".completion_status", objective.completion_status);
 		})
 
+	}
+
+	saveData(data) {
+
+		let state = JSON.parse(JSON.stringify(data.visitedPages))
+
+		if (state !== undefined && typeof state === "object") {
+
+			this.SCORM.set('cmi.suspend_data', JSON.stringify(state))
+
+			ScormMockApi.SetValue('cmi.suspend_data', JSON.stringify(state))
+
+		}
 	}
 
 }

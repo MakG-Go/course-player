@@ -37,8 +37,8 @@
                     <NavigationButton>
                         <h2 class="btn__counter">
                             {{ checkRouteName + 1 }}/{{ menu.length }}
-                        </h2>
-                    </NavigationButton>
+                        </h2></NavigationButton
+                    >
                 </div>
             </div>
         </perfect-scrollbar>
@@ -66,9 +66,10 @@ export default {
         },
     },
     methods: {
-        ...mapActions("status", ["addVisitPage"]),
-        ...mapActions("status", ["setLocation"]),
+        ...mapActions("status", ["addVisitPage", "setLocation", "saveState"]),
+
         /** Блокируем скролл при открытии меню */
+
         onGlobalScroll(event) {
             if (this.menuState) {
                 let scrollContainer = this.$refs.globalScroll;
@@ -88,13 +89,14 @@ export default {
             }
         },
         $route() {
-            console.log(this.$route);
             if (this.start) {
                 this.setLocation();
+                this.saveState();
                 this.addVisitPage(this.$route.name);
             }
         },
     },
+    beforeUnmount() {},
 };
 </script>
 

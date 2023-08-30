@@ -1,4 +1,3 @@
-
 import _SCORM from "@/scormApi/scormApi.js"
 
 
@@ -39,7 +38,9 @@ export default {
 
         },
         getExit(state) {
+
             state.API.terminatSCORM()
+
         },
         setLocation(state) {
 
@@ -48,7 +49,12 @@ export default {
         setStatusCompleted(state) {
 
             state.API.setStatusCompleted()
+        },
+
+        saveState(state) {
+            state.API.saveData(state)
         }
+
     },
 
     actions: {
@@ -71,10 +77,13 @@ export default {
             if (getters.visitedAll) {
                 commit('setStatusCompleted')
             }
-
         },
         setLocation({ commit }) {
             commit('setLocation')
+        },
+
+        saveState({ commit }) {
+            commit("saveState")
         }
 
     },
