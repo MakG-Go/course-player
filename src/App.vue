@@ -55,7 +55,7 @@ export default {
 
     computed: {
         ...mapGetters("header", ["curentPage", "menu", "menuState"]),
-        ...mapGetters("status", ["start", "lastPage"]),
+        ...mapGetters("status", ["start", "lastPage", "objectivs"]),
 
         checkRouteName() {
             if (this.$route.name === undefined) {
@@ -65,8 +65,9 @@ export default {
             }
         },
     },
+
     methods: {
-        ...mapActions("status", ["addVisitPage", "setLocation", "saveState"]),
+        ...mapActions("status", ["addVisitPage", "setLocation"]),
 
         /** Блокируем скролл при открытии меню */
 
@@ -78,11 +79,11 @@ export default {
             }
         },
     },
+
     watch: {
         start() {
             if (this.start) {
                 this.addVisitPage(this.$route.name);
-                console.log(this.lastPage);
                 if (this.lastPage !== undefined && this.lastPage !== null) {
                     this.$router.push({ path: this.lastPage });
                 }
@@ -91,12 +92,10 @@ export default {
         $route() {
             if (this.start) {
                 this.setLocation();
-                this.saveState();
                 this.addVisitPage(this.$route.name);
             }
         },
     },
-    beforeUnmount() {},
 };
 </script>
 

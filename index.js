@@ -262,21 +262,29 @@ function addResourcesToManifest(manifestObj) {
                     const ext = path.extname(file).toLowerCase();
 
                     if (['.xml', '.xsd', '.dtd', '.xsx'].indexOf(ext) === -1) {
+
+                        const relativeFilePath = filePath.replace(config.patch + '\\', '');
+                        const correctFilePath = '/' + relativeFilePath.replace(/[\\]/g, '/');
+
                         const fileObj = {
                             $: {
-                                href: filePath.replace(config.patch + '\\', ''),
+                                // href: filePath.replace(config.patch + '\\', ''),
+                                href: correctFilePath
                             },
                         };
 
                         parent.file.push(fileObj);
                     }
                 }
+
+
             }
         };
 
         addFile(config.patch, resource[config.standard]);
 
         manifestObj.manifest.resources.resource.push(resource[config.standard]);
+
 
         resolve(manifestObj);
     });
@@ -287,6 +295,7 @@ function createManifestFile() {
 
     // const manifestPath = path.join(__dirname, config.patch, 'imsmanifest.xml');
     const manifestPath = `${config.patch}/imsmanifest.xml`;
+
 
     // Добавляем метаданные
     addMetadataToManifest(imsManifestTemplate);

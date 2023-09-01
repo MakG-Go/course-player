@@ -1,9 +1,7 @@
+
 const scormData = {
 	"cmi.location": "",
-	"cmi.score.raw": "0",
-	"cmi.completion_status": "incomplete",
 	"cmi.progress_measure": 0.0,
-	"cmi.success_status": "unknown"
 }
 
 

@@ -8,7 +8,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "start": "node index.js"
+    "scorm": "node index.js"
   },
   "author": "Moksheev Alexander and Belov Semen",
   "license": "MIT",

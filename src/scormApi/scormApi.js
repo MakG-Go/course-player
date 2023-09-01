@@ -7,7 +7,7 @@ import { Objectives } from '&/objectivs';
 
 /** Для отладки SCORM передать true */
 
-pipwerks.debug.isActive = true
+pipwerks.debug.isActive = false
 
 /** Версия SCORM */
 
@@ -20,29 +20,45 @@ class SCORM2004 {
 	}
 
 	initialize() {
-		ScormMockApi.Initialize()
+
 		this.SCORM.init();
+		ScormMockApi.Initialize()
 		this.getLocation()
 
-		if (this.SCORM.get("cmi.objectives._count") && parseInt(this.SCORM.get("cmi.objectives._count") > 0)) {
-
+		if (this.SCORM.get("cmi.objectives._count") && parseInt(this.SCORM.get("cmi.objectives._count")) > 0) {
 			console.log("The course has objectives.");
+
+			console.log(this.SCORM.get("cmi.objectives.0.id"));
+			console.log(this.SCORM.get("cmi.objectives.0.score.raw"));
 		}
 		else {
 
 			this.creareObjectives(Objectives)
 
-			console.log("The course does not have objectives.");
+
+			// SCORM.set("cmi.objectives.0.id", "Стиралки_1");
+			// SCORM.set("cmi.objectives.0.score.raw", 0);
+			// SCORM.set("cmi.objectives.0.score.max", 100);
+			// SCORM.set("cmi.objectives.0.score.min", 0);
+			// SCORM.set("cmi.objectives.0.score.scaled", 0);
+			// SCORM.set("cmi.objectives.0.success_status", "unknown");
+			// SCORM.set("cmi.objectives.0.completion_status", "incomplete");
+			// SCORM.set("cmi.objectives.0.description", "ХУЕТА");
+
+			console.log("Now course have objectives.");
+			console.log(this.SCORM.get("cmi.objectives.0.id"));
+
 		}
 
-		this.SCORM.get('cmi.suspend_data')
-
-
+		this.SCORM.save();
 	};
 
-	terminatSCORM() {
-		this.SCORM.terminate()
-		console.log('terminate')
+	terminate() {
+
+
+		this.SCORM.quit();
+
+		console.log('terminate');
 	};
 
 	getLocation() {
@@ -62,7 +78,6 @@ class SCORM2004 {
 	};
 
 	setLocation() {
-
 		const currentPage = window.location.href;
 		const locationResult = this.SCORM.get("cmi.location");
 
@@ -85,17 +100,12 @@ class SCORM2004 {
 
 		ScormMockApi.SetValue("cmi.location", this.SCORM.get("cmi.location"))
 
-		this.SCORM.set('cmi.suspend_data', locationResult)
-
 		console.log('setLocation')
 	};
 
 	getLastPage() {
 
 		const route = ScormMockApi.GetValue("cmi.location")
-
-		console.log(route)
-		console.log(typeof (route))
 
 		if (route == null || route == undefined || route == "null") {
 			return "/"
@@ -115,26 +125,124 @@ class SCORM2004 {
 	};
 
 	creareObjectives(target) {
-		target.forEach((objective, id) => {
-			this.SCORM.set("cmi.objectives." + id + ".id", objective.id);
-			this.SCORM.set("cmi.objectives." + id + ".score.raw", parseInt(objective.score.raw));
-			this.SCORM.set("cmi.objectives." + id + ".score.max", parseInt(objective.score.max));
-			this.SCORM.set("cmi.objectives." + id + ".score.min", parseInt(objective.score.min));
-			this.SCORM.set("cmi.objectives." + id + ".success_status", objective.success_status);
-			this.SCORM.set("cmi.objectives." + id + ".completion_status", objective.completion_status);
+
+		console.log(target, 'Цели')
+
+		target.forEach((objective, n) => {
+
+			console.log(n)
+			console.log(objective.score.raw)
+
+			this.SCORM.set(`cmi.objectives.${n}.id`, objective.id);
+			this.SCORM.set(`cmi.objectives.${n}.score.raw`, objective.score.raw);
+			this.SCORM.set(`cmi.objectives.${n}.score.min`, objective.score.min);
+			this.SCORM.set(`cmi.objectives.${n}.score.max`, objective.score.max);
+			this.SCORM.set(`cmi.objectives.${n}.score.scaled`, objective.score.scaled);
+			this.SCORM.set(`cmi.objectives.${n}.success_status`, objective.success_status);
+			this.SCORM.set(`cmi.objectives.${n}.completion_status`, objective.completion_status);
+			this.SCORM.set(`cmi.objectives.${n}.description`, objective.description);
 		})
+
+		console.log(this.SCORM.get("cmi.objectives.0.id") + "objective")
+
 
 	}
 
+	/** Сохраняем данные в localStorage, так и в cmi.suspend_data */
+
 	saveData(data) {
 
-		let state = JSON.parse(JSON.stringify(data.visitedPages))
+		let suspend = JSON.stringify(data.courceData)
 
-		if (state !== undefined && typeof state === "object") {
 
-			this.SCORM.set('cmi.suspend_data', JSON.stringify(state))
+		if (suspend !== undefined && typeof suspend === "string" && suspend.length > 0) {
 
-			ScormMockApi.SetValue('cmi.suspend_data', JSON.stringify(state))
+			this.SCORM.set('cmi.suspend_data', suspend)
+
+			ScormMockApi.SetValue('cmi.suspend_data', suspend)
+
+		}
+
+		this.SCORM.save()
+	}
+
+	/** Получаем сохранённые данные как из localStorage, так и из cmi.suspend_data */
+
+	getSaveData() {
+		let state
+
+		if (this.SCORM.get('cmi.suspend_data') !== "" && this.SCORM.get('cmi.suspend_data') !== 'null') {
+			state = JSON.parse(this.SCORM.get('cmi.suspend_data'))
+
+		}
+		else if (ScormMockApi.GetValue('cmi.suspend_data') !== "" && ScormMockApi.GetValue('cmi.suspend_data') !== 'null') {
+			state = JSON.parse(ScormMockApi.GetValue('cmi.suspend_data'))
+		}
+
+		else {
+
+			state = {}
+		}
+
+		return state
+	}
+
+	/** Проверяем результат */
+
+	checkData(data) {
+
+		console.log(data, 'checkData')
+
+		console.log(this.SCORM.get(`cmi.objectives.0.id`), "ID")
+		console.log(this.SCORM.get("cmi.objectives.0.id"), "-- ID")
+
+		let currentObjectivesData = data
+
+		let scormNumber = parseInt(this.SCORM.get('cmi.objectives._count'))
+
+		let numberOfObjectives
+
+		scormNumber == undefined || Number.isNaN(scormNumber) ? numberOfObjectives = 1 : numberOfObjectives = scormNumber
+
+		console.log(scormNumber)
+		console.log(numberOfObjectives)
+
+		for (var n = 0; n < numberOfObjectives; n++) {
+
+			currentObjectivesData.forEach((item) => {
+
+				console.log(item.id)
+				console.log(item.raw)
+				console.log(n)
+				console.log(this.SCORM.get(`cmi.objectives.0.id`))
+				console.log(this.SCORM.get(`cmi.objectives.${n}.id`))
+
+				if (item.id === this.SCORM.get(`cmi.objectives.${n}.id`)) {
+
+					let min = parseInt(this.SCORM.get(`cmi.objectives.${n}.score.min`));
+
+					console.log(item.raw)
+
+					console.log('mutch')
+
+					if (item.raw > min) {
+
+						this.SCORM.set(`cmi.objectives.${n}.score.raw`, item.raw);
+
+						this.SCORM.set(`cmi.objectives.${n}.score.scaled`, 1.0);
+
+						this.SCORM.set(`cmi.objectives.${n}.success_status`, "passed");
+						this.SCORM.set(`cmi.objectives.${n}.completion_status`, "completed");
+
+
+						console.log(this.SCORM.get(`cmi.objectives.${n}.score.raw`), '--new')
+					}
+				}
+			})
+
+			console.log(this.SCORM.get("cmi.objectives.0.score.raw"))
+
+			this.SCORM.save()
 
 		}
 	}

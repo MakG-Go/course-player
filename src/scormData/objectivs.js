@@ -1,13 +1,20 @@
-/** Цели курса */
+
+/** ПРИМЕР ЦЕЛЕЙ КУРСА.*/
+
+/**<<ФАЙЛ ЯВЛЯЕТСЯ ШАБЛОНОМ >> */
+/**<<ФАЙЛ ЯВЛЯЕТСЯ ШАБЛОНОМ >> */
+/**<<ФАЙЛ ЯВЛЯЕТСЯ ШАБЛОНОМ >> */
+
 export const Objectives = [
 	{
 		id: "Стиралки_1",
 		score: {
-			raw: 80,
+			raw: 0,
 			max: 100,
-			min: 0
+			min: 80
 		},
-		success_status: "passed",
-		completion_status: "completed",
+		success_status: "unknown",
+		completion_status: "incomplete",
+		progress_measure: 0.0
 	},
 ];

@@ -25,3 +25,9 @@ createApp(App)
     .use(store)
 
     .mount('#app')
+
+
+window.onbeforeunload = function (e) {
+    store.dispatch('status/getExit');
+
+};

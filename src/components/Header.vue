@@ -13,7 +13,7 @@
                     <span></span>
                 </button>
                 <p style="position: relative; z-index: 99">
-                    {{ visit }}
+                    {{ objectivs }}
                     {{ visit.length }}
                 </p>
             </div>
@@ -102,7 +102,7 @@ export default {
         },
     },
     computed: {
-        ...mapGetters("status", ["visitTotal", "visit"]),
+        ...mapGetters("status", ["visitTotal", "visit", "objectivs"]),
         ...mapGetters("header", ["menuState"]),
         getMenuClass() {
             return {
