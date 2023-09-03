@@ -1,5 +1,7 @@
 import _SCORM from "@/scormApi/scormApi.js"
 import { CONVERT } from "@/globals/Methods.js"
+// import _SCORM from "@/scormApi/scorm.js"
+// console.log(_SCORM)
 
 export default {
 
@@ -7,23 +9,17 @@ export default {
 
     state: {
 
-        courceData: (() => {
-            if (Object.values(_SCORM.getSaveData()).length > 0) {
-                return _SCORM.getSaveData()
-            }
-            else {
-                return {
-                    pages: [],
-                    varebles: {},
-                    objectivs: [
-                    ]
-                }
-            }
-        })(),
+        courceData: {
+            pages: [],
+            varebles: {},
+            objectivs: [
+            ]
 
+        },
 
         start: false,
         API: _SCORM,
+
     },
 
     getters: {
@@ -69,6 +65,11 @@ export default {
         getStart(state) {
             state.start = true
             state.API.initialize()
+
+            if (Object.values(state.API.getSaveData()).length > 0) {
+                console.log('now')
+                return state = state.API.getSaveData()
+            }
 
         },
 

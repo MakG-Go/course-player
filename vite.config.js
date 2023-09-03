@@ -42,7 +42,7 @@ export default defineConfig({
   },
   build: {
     assetsDir: '',
-    outDir: "./packageFolder/course/",
+    outDir: "./packageFolder/scormcontent/",
     emptyOutDir: true,
     sourcemap: false,
     minify: true,

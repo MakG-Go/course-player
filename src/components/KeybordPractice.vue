@@ -386,7 +386,7 @@ export default {
 
         showFeedback() {
             this.questionCounter + 1 > this.questionData.length
-                ? this.getScore({ id: "Стиралки_1", score: 100 })
+                ? this.getScore({ id: "Total", score: 100 })
                 : "";
             return this.questionCounter + 1 > this.questionData.length;
         },

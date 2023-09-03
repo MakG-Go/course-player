@@ -22,7 +22,7 @@ export default {
         /** Обязательно для завершения курса */
         ...mapActions("status", ["setStatusCompleted"]),
         closeCource() {
-            // this.setStatusCompleted();
+            this.setStatusCompleted();
             window.close();
         },
     },

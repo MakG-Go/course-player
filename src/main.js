@@ -30,4 +30,8 @@ createApp(App)
 window.onbeforeunload = function (e) {
     store.dispatch('status/getExit');
 
+    var message = "Are you sure you want to leave this page?";
+    e.returnValue = message;
+    return message;
+
 };

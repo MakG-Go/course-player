@@ -1,7 +1,7 @@
 /** Цели курса */
 export const Objectives = [
 	{
-		id: "Стиралки_1",
+		id: "Total",
 		score: {
 			raw: 0,
 			max: 100,
@@ -10,6 +10,7 @@ export const Objectives = [
 		},
 		success_status: "unknown",
 		completion_status: "incomplete",
-		description: "Главная цель курса"
+		description: "Genera objectiv"
 	},
 ];
+

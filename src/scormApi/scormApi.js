@@ -1,5 +1,5 @@
 import pipwerks from 'pipwerks-scorm-api-wrapper';
-import { SCORM } from 'pipwerks-scorm-api-wrapper';
+// import { SCORM } from 'pipwerks-scorm-api-wrapper';
 
 import { ScormMockApi } from "@/scormData/scormData";
 /** Импортируем цели курса */
@@ -7,54 +7,53 @@ import { Objectives } from '&/objectivs';
 
 /** Для отладки SCORM передать true */
 
-pipwerks.debug.isActive = false
+pipwerks.debug.isActive = true
 
 /** Версия SCORM */
 
-SCORM.version = "2004"
+pipwerks.SCORM.version = "2004"
 
 class SCORM2004 {
 
 	constructor() {
-		this.SCORM = SCORM;
+		this.SCORM = pipwerks.SCORM;
 	}
 
 	initialize() {
 
 		this.SCORM.init();
-		ScormMockApi.Initialize()
-		this.getLocation()
 
 		if (this.SCORM.get("cmi.objectives._count") && parseInt(this.SCORM.get("cmi.objectives._count")) > 0) {
 			console.log("The course has objectives.");
 
-			console.log(this.SCORM.get("cmi.objectives.0.id"));
-			console.log(this.SCORM.get("cmi.objectives.0.score.raw"));
+			console.log(this.SCORM.get("cmi.objectives.0.id"), '--id');
+			console.log(this.SCORM.get("cmi.objectives.0.score.raw"), '--raw');
+			console.log(this.SCORM.get("cmi.objectives.0.score.min"), '--min');
+			console.log(this.SCORM.get("cmi.objectives.0.score.max"), '--max');
+			console.log(this.SCORM.get(`cmi.objectives.0.score.scaled`), '--scaled');
+			console.log(this.SCORM.get(`cmi.objectives.0.success_status`), '--success_status');
+			console.log(this.SCORM.get(`cmi.objectives.0.completion_status`), '--completion_status');
+			console.log(this.SCORM.get(`cmi.objectives.0.description`), '--description');
 		}
 		else {
 
 			this.creareObjectives(Objectives)
 
-
-			// SCORM.set("cmi.objectives.0.id", "Стиралки_1");
-			// SCORM.set("cmi.objectives.0.score.raw", 0);
-			// SCORM.set("cmi.objectives.0.score.max", 100);
-			// SCORM.set("cmi.objectives.0.score.min", 0);
-			// SCORM.set("cmi.objectives.0.score.scaled", 0);
-			// SCORM.set("cmi.objectives.0.success_status", "unknown");
-			// SCORM.set("cmi.objectives.0.completion_status", "incomplete");
-			// SCORM.set("cmi.objectives.0.description", "ХУЕТА");
+			if (!this.SCORM.set("cmi.objectives.0.score.raw", 0)) {
+				console.error('Error setting objective');
+			}
 
 			console.log("Now course have objectives.");
-			console.log(this.SCORM.get("cmi.objectives.0.id"));
 
 		}
 
 		this.SCORM.save();
+
+		ScormMockApi.Initialize()
+
 	};
 
 	terminate() {
-
 
 		this.SCORM.quit();
 
@@ -66,8 +65,6 @@ class SCORM2004 {
 		const locationResult = this.SCORM.get("cmi.location")
 
 		if (locationResult !== "") {
-
-			// console.log("Current location: " + locationResult);
 
 		} else {
 
@@ -130,9 +127,6 @@ class SCORM2004 {
 
 		target.forEach((objective, n) => {
 
-			console.log(n)
-			console.log(objective.score.raw)
-
 			this.SCORM.set(`cmi.objectives.${n}.id`, objective.id);
 			this.SCORM.set(`cmi.objectives.${n}.score.raw`, objective.score.raw);
 			this.SCORM.set(`cmi.objectives.${n}.score.min`, objective.score.min);
@@ -154,6 +148,7 @@ class SCORM2004 {
 
 		let suspend = JSON.stringify(data.courceData)
 
+		console.log(suspend)
 
 		if (suspend !== undefined && typeof suspend === "string" && suspend.length > 0) {
 
@@ -196,7 +191,6 @@ class SCORM2004 {
 		console.log(this.SCORM.get(`cmi.objectives.0.id`), "ID")
 		console.log(this.SCORM.get("cmi.objectives.0.id"), "-- ID")
 
-		let currentObjectivesData = data
 
 		let scormNumber = parseInt(this.SCORM.get('cmi.objectives._count'))
 
@@ -209,13 +203,7 @@ class SCORM2004 {
 
 		for (var n = 0; n < numberOfObjectives; n++) {
 
-			currentObjectivesData.forEach((item) => {
-
-				console.log(item.id)
-				console.log(item.raw)
-				console.log(n)
-				console.log(this.SCORM.get(`cmi.objectives.0.id`))
-				console.log(this.SCORM.get(`cmi.objectives.${n}.id`))
+			data.forEach((item) => {
 
 				if (item.id === this.SCORM.get(`cmi.objectives.${n}.id`)) {
 
@@ -226,6 +214,8 @@ class SCORM2004 {
 					console.log('mutch')
 
 					if (item.raw > min) {
+
+						console.log("<<>>")
 
 						this.SCORM.set(`cmi.objectives.${n}.score.raw`, item.raw);
 
@@ -242,9 +232,9 @@ class SCORM2004 {
 
 			console.log(this.SCORM.get("cmi.objectives.0.score.raw"))
 
-			this.SCORM.save()
-
 		}
+
+		this.SCORM.save()
 	}
 
 }
