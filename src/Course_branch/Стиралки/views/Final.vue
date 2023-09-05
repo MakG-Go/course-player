@@ -20,9 +20,9 @@ export default {
     },
     methods: {
         /** Обязательно для завершения курса */
-        ...mapActions("status", ["setStatusCompleted"]),
+        ...mapActions("status", ["getExit"]),
         closeCource() {
-            this.setStatusCompleted();
+            this.getExit();
             window.close();
         },
     },

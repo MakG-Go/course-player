@@ -1,6 +1,6 @@
 export default {
   "standard": "SCORM2004",
-  "name": "Тестовый курс VUE-сборщик",
-  "id": "z-test-vue",
+  "name": "Тестовый",
+  "id": "aaa-test-vue-aaa",
   "patch": "packageFolder"
 }

@@ -7,7 +7,7 @@ import path from "path"
 export default defineConfig({
   base: "./",
   root: './',
-  publicDir: './src/Course_branch/Стиралки/assets', /** Путь до статичесского контента конкретного курса img, video, ...*/
+  publicDir: './src/Course_branch/Стиралки/assets', /** Путь до статичесского контента конкретного курса img, video, и.т.д ...*/
   plugins: [
     vue(),
     VitePluginFonts({

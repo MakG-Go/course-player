@@ -1,4 +1,4 @@
-import _SCORM from "@/scormApi/scormApi.js"
+import { _SCORM2004 } from "@/scormApi/scormApi.js"
 import { CONVERT } from "@/globals/Methods.js"
 // import _SCORM from "@/scormApi/scorm.js"
 // console.log(_SCORM)
@@ -11,14 +11,13 @@ export default {
 
         courceData: {
             pages: [],
-            varebles: {},
             objectivs: [
             ]
 
         },
 
         start: false,
-        API: _SCORM,
+        API: _SCORM2004,
 
     },
 
@@ -68,34 +67,31 @@ export default {
 
             if (Object.values(state.API.getSaveData()).length > 0) {
                 console.log('now')
-                return state = state.API.getSaveData()
+                return state.courceData = state.API.getSaveData().courceData
             }
 
         },
 
         getExit(state) {
-            state.API.saveData(state)
+
+            state.API.saveData({ "courceData": state.courceData })
             state.API.terminate()
 
         },
-        setLocation(state) {
 
+        setLocation(state) {
             state.API.setLocation()
         },
 
-        setStatusCompleted() {
-            state.API.setStatusCompleted()
-        },
-
         saveState(state) {
-            state.API.saveData(state)
+            state.API.saveData(state.courceData)
         },
 
         getScore(state, objective) {
 
-            state.courceData.objectivs.push({ id: objective.id, raw: objective.score })
+            state.courceData.objectivs.push({ id: objective.id, score: objective.score })
+            state.API.setScore(objective.score);
 
-            state.API.checkData(CONVERT(state.courceData.objectivs))
         }
 
     },
@@ -116,9 +112,9 @@ export default {
             commit('getExit')
         },
 
-        setStatusCompleted({ commit, getters }) {
+        checkCompleted({ commit, getters }) {
             if (getters.visitedAll) {
-                commit('setStatusCompleted')
+                commit('checkCompleted')
             }
         },
         setLocation({ commit }) {

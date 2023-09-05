@@ -385,6 +385,9 @@ export default {
         },
 
         showFeedback() {
+            // this.questionCounter + 1 > this.questionData.length
+            //     ? this.getScore({ id: "Total", score: 100 })
+            //     : "";
             this.questionCounter + 1 > this.questionData.length
                 ? this.getScore({ id: "Total", score: 100 })
                 : "";
