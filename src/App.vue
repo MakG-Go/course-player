@@ -67,7 +67,7 @@ export default {
     },
 
     methods: {
-        ...mapActions("status", ["addVisitPage", "setLocation"]),
+        ...mapActions("status", ["addVisitPage", "setLocation", "saveState"]),
 
         /** Блокируем скролл при открытии меню */
 
@@ -84,6 +84,7 @@ export default {
         start() {
             if (this.start) {
                 this.addVisitPage(this.$route.name);
+
                 if (this.lastPage !== undefined && this.lastPage !== null) {
                     this.$router.push({ path: this.lastPage });
                 }
@@ -92,7 +93,10 @@ export default {
         $route() {
             if (this.start) {
                 this.setLocation();
+
                 this.addVisitPage(this.$route.name);
+
+                this.saveState();
             }
         },
     },

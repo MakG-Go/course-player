@@ -1,7 +1,7 @@
 
 export const TotalObjectives = [{
 
-	completion_status: "unknown",
+	completion_status: "incomplete",
 	success_status: "unknown",
 	progress_measure: "0.0",
 	scaled_passing_score: "0.8",

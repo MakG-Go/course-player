@@ -184,10 +184,6 @@ export default {
             correctAnswer: false,
             /** Массив для заполнения клавиатуры */
             // keyboard: [
-            // 	'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', ' ',
-            // 	' ', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', ' ',
-            // 	' ', '-', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '_', ' ',
-            // ],
             keyboard: [
                 "й",
                 "ц",
@@ -225,7 +221,6 @@ export default {
                 "_",
                 "удалить",
             ],
-
             /** Хранилище выбранных символов*/
             choyceStorge: [],
         };
@@ -385,9 +380,6 @@ export default {
         },
 
         showFeedback() {
-            // this.questionCounter + 1 > this.questionData.length
-            //     ? this.getScore({ id: "Total", score: 100 })
-            //     : "";
             this.questionCounter + 1 > this.questionData.length
                 ? this.getScore({ id: "Total", score: 100 })
                 : "";
@@ -397,7 +389,7 @@ export default {
     // watch: {
     //     showFeedback() {
     //         this.questionCounter + 1 > this.questionData.length
-    //             ? this.getScore({ id: "Стиралки_1", score: 100 })
+    //             ? this.getScore({ id: "Total", score: 100 })
     //             : "";
     //     },
     // },

@@ -1,5 +1,6 @@
 import { _SCORM2004 } from "@/scormApi/scormApi.js"
 import { CONVERT } from "@/globals/Methods.js"
+import { unref } from "vue"
 // import _SCORM from "@/scormApi/scorm.js"
 // console.log(_SCORM)
 
@@ -12,7 +13,8 @@ export default {
         courceData: {
             pages: [],
             objectivs: [
-            ]
+            ],
+            lastPage: '/'
 
         },
 
@@ -52,7 +54,6 @@ export default {
         }
 
 
-
     },
     mutations: {
 
@@ -75,22 +76,27 @@ export default {
         getExit(state) {
 
             state.API.saveData({ "courceData": state.courceData })
-            state.API.terminate()
+            // state.API.terminate()
 
         },
 
         setLocation(state) {
-            state.API.setLocation()
+
+            state.courceData.lastPage = state.API.setLocation()
         },
 
         saveState(state) {
-            state.API.saveData(state.courceData)
+
+            state.API.saveData({ "courceData": state.courceData })
         },
 
         getScore(state, objective) {
 
             state.courceData.objectivs.push({ id: objective.id, score: objective.score })
-            state.API.setScore(objective.score);
+            console.log(state.courceData.objectivs, 'state.courceData.objectivs')
+
+            state.API.setScore(state.courceData.objectivs);
+            state.API.saveData({ "courceData": state.courceData })
 
         }
 
@@ -117,6 +123,7 @@ export default {
                 commit('checkCompleted')
             }
         },
+
         setLocation({ commit }) {
             commit('setLocation')
         },

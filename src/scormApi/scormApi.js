@@ -107,13 +107,19 @@ class SCORM2004 {
 
 	getLastPage() {
 
-		const route = ScormMockApi.GetValue("cmi.location")
+		// const route = ScormMockApi.GetValue("cmi.location")
+		const route = this.SCORM.get("cmi.location")
+		const lastHtml = route.split('/').slice(-1).join()
 
-		if (route == null || route == undefined || route == "null") {
+		console.log(route)
+
+
+		if (route === null || route === undefined || route == "null" || lastHtml === "index.html") {
 			return "/"
 		}
 		else {
-			return "/" + ScormMockApi.GetValue("cmi.location").split('/').slice(-1).join()
+			// return "/" + ScormMockApi.GetValue("cmi.location").split('/').slice(-1).join()
+			return "/" + lastHtml
 		}
 
 	}
@@ -169,6 +175,7 @@ class SCORM2004 {
 			this.SCORM.set(`cmi.objectives.${n}.success_status`, objective.success_status);
 			this.SCORM.set(`cmi.objectives.${n}.completion_status`, objective.completion_status);
 			this.SCORM.set(`cmi.objectives.${n}.description`, objective.description);
+			this.SCORM.set(`cmi.objectives.${n}.progress_measure`, objective.progress_measure);
 
 			// let saveObject = {}
 			// saveObject["objective_" + n] = objective
@@ -191,13 +198,11 @@ class SCORM2004 {
 
 		let suspend = JSON.stringify(data)
 
-		console.log(suspend)
-
 		if (suspend !== undefined && typeof suspend === "string" && suspend.length > 0) {
 
 			this.SCORM.set("cmi.suspend_data", suspend)
 
-			ScormMockApi.SetValue('cmi.suspend_data', suspend)
+			// ScormMockApi.SetValue('cmi.suspend_data', suspend)
 
 			this.SCORM.save()
 
@@ -212,29 +217,21 @@ class SCORM2004 {
 	getSaveData() {
 		let state
 
-
-		// if (this.SCORM.get('cmi.suspend_data') !== "" && this.SCORM.get('cmi.suspend_data') !== 'null') {
-		// 	state = JSON.parse(this.SCORM.get('cmi.suspend_data'))
-		// 	console.log('get Scorm')
-
-		// }
-
 		console.log(this.SCORM.get('cmi.suspend_data'), "suspend_data on start")
 
-		if (this.SCORM.get('cmi.suspend_data')) {
-			console.log(state, 'get Scorm')
+		if (this.SCORM.get('cmi.suspend_data') !== "" && this.SCORM.get('cmi.suspend_data') !== 'null') {
+			console.log('get Scorm')
 			return state = JSON.parse(this.SCORM.get('cmi.suspend_data'))
 
 		}
 		if (ScormMockApi.GetValue('cmi.suspend_data') !== "" && ScormMockApi.GetValue('cmi.suspend_data') !== 'null') {
 
-			console.log(state, 'get ScormMock')
+			console.log('get ScormMock')
 			return state = JSON.parse(ScormMockApi.GetValue('cmi.suspend_data'))
 
 		}
 		else {
-
-			console.log(state, 'get')
+			console.log('get empty state')
 			return state = {}
 		}
 
@@ -246,6 +243,8 @@ class SCORM2004 {
 	checkObjectivs(data) {
 
 		console.log(data, 'checkData')
+
+		let total = 0
 
 		let scormNumber = parseInt(this.SCORM.get('cmi.objectives._count'))
 
@@ -261,53 +260,86 @@ class SCORM2004 {
 
 					let min = parseInt(this.SCORM.get(`cmi.objectives.${n}.score.min`));
 
-					console.log(item.raw)
+					console.log(this.SCORM.get(`cmi.objectives.${n}.score.min`), '--scorm min')
+					console.log(typeof this.SCORM.get(`cmi.objectives.${n}.score.min`), '--scorm min type')
 
-					console.log('mutch')
+					console.log(min, "--min")
+					console.log(item.score, "--item.score")
 
-					if (item.raw > min) {
+					if (item.score >= min) {
 
-						console.log("<<>>")
+						console.log("<< ACEPT >>")
 
-						let scaled = item.raw / Objectives[n].score.max
+						let scaled = item.score / Objectives[n].score.max
 
 						this.SCORM.set(`cmi.objectives.${n}.score.min`, Objectives[n].score.min.toString());
 						this.SCORM.set(`cmi.objectives.${n}.score.max`, Objectives[n].score.max.toString());
-
-						this.SCORM.set(`cmi.objectives.${n}.score.raw`, item.raw.toString());
-
+						this.SCORM.set(`cmi.objectives.${n}.score.raw`, item.score.toString());
 						this.SCORM.set(`cmi.objectives.${n}.score.scaled`, scaled.toString());
-
 						this.SCORM.set(`cmi.objectives.${n}.success_status`, "passed");
 						this.SCORM.set(`cmi.objectives.${n}.completion_status`, "completed");
+						this.SCORM.set(`cmi.objectives.${n}.progress_measure`, "1.0")
 
+						console.log(this.SCORM.get(`cmi.objectives.${n}.score.raw`), '-- raw acept')
+					}
 
-						console.log(this.SCORM.get(`cmi.objectives.${n}.score.raw`), '--new')
+					else {
+
+						console.log("<< DENIDED >>")
+
+						let scaled = item.score / Objectives[n].score.max
+
+						this.SCORM.set(`cmi.objectives.${n}.score.min`, Objectives[n].score.min.toString());
+						this.SCORM.set(`cmi.objectives.${n}.score.max`, Objectives[n].score.max.toString());
+						this.SCORM.set(`cmi.objectives.${n}.score.raw`, item.score.toString());
+						this.SCORM.set(`cmi.objectives.${n}.score.scaled`, scaled.toString());
+						this.SCORM.set(`cmi.objectives.${n}.success_status`, "failed");
+						this.SCORM.set(`cmi.objectives.${n}.completion_status`, "incomplete");
+						this.SCORM.set(`cmi.objectives.${n}.progress_measure`, "0.0")
+						console.log(this.SCORM.get(`cmi.objectives.${n}.score.raw`), '-- raw denied')
+
 					}
 				}
+				else {
+					console.log("objective not found in provided data")
+				}
+
+				console.log(item.score)
+
+				total += item.score
 			})
+
+
 
 			console.log(this.SCORM.get("cmi.objectives.0.score.raw"))
 
 		}
 
 		this.SCORM.save()
+
+		console.log(total)
+
+		return total
 	}
 
 	/** Записываем значение score */
 
 	setScore(data) {
 
-		console.log(data, '--in API')
+
+		const totalScore = this.checkObjectivs(data)
+
+		console.log(totalScore, '--in API')
 
 		const currentScore = parseInt(this.SCORM.get("cmi.score.raw"))
 		const minimum = parseInt(this.SCORM.get("cmi.score.min"));
 
-		if (data > currentScore) {
 
-			this.SCORM.set("cmi.score.raw", data.toString());
+		if (totalScore > currentScore) {
 
-			this.checkTotalObjectivs(currentScore, minimum);
+			this.SCORM.set("cmi.score.raw", totalScore.toString());
+
+			this.checkTotalObjectivs(totalScore, minimum);
 		}
 		else {
 			console.log('Текущее значение больше представленного');
