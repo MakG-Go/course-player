@@ -7,7 +7,7 @@ import path from "path"
 export default defineConfig({
   base: "./",
   root: './',
-  publicDir: './src/Course_branch/Стиралки/assets', /** Путь до статичесского контента конкретного курса img, video, и.т.д ...*/
+  publicDir: './src/Course_branch/Холодильники/assets', /** Путь до статичесского контента конкретного курса img, video, и.т.д ...*/
   plugins: [
     vue(),
     VitePluginFonts({
@@ -37,7 +37,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
-      '&': path.resolve(__dirname, './src/Course_branch/Стиралки') /** Путь до корня конкретного курса*/
+      '&': path.resolve(__dirname, './src/Course_branch/Холодильники') /** Путь до корня конкретного курса*/
     }
   },
   build: {

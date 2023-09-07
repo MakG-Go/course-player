@@ -14,8 +14,7 @@ export default {
             pages: [],
             objectivs: [
             ],
-            lastPage: '/'
-
+            variations: {},
         },
 
         start: false,
@@ -41,7 +40,7 @@ export default {
 
         /** Получение последней страницы курса. ДЛЯ ScormAPI! */
 
-        lastPage: (state) => state.API.getLastPage(),
+        lastPage: (state) => state.API.getLastPage() || state.courceData.lastPage,
 
         /** Получение выполнения цели */
 
@@ -49,9 +48,19 @@ export default {
 
         checkObjectivs(state) {
             return (object) => {
-                return CONVERT(state.courceData.objectivs).find(item => item.id === object.id)
+                return CONVERT(state.courceData.objectivs).some(item => item.id === object.id)
             }
-        }
+        },
+
+        /** Восстановление изначальных API Objectivs */
+
+        restorAPIobjectivs: (state) => state.API.getRestoreObjectivs(),
+
+        /** Получение значения кастомных переменных из API */
+
+        variations: (state) => state.courceData.variations,
+
+        checkVariations: (state) => (oGlobal) => state.courceData.variations.some(item => item.name === oGlobal.name)
 
 
     },
@@ -63,6 +72,7 @@ export default {
         },
 
         getStart(state) {
+
             state.start = true
             state.API.initialize()
 
@@ -76,7 +86,6 @@ export default {
         getExit(state) {
 
             state.API.saveData({ "courceData": state.courceData })
-            // state.API.terminate()
 
         },
 
@@ -93,11 +102,13 @@ export default {
         getScore(state, objective) {
 
             state.courceData.objectivs.push({ id: objective.id, score: objective.score })
-            console.log(state.courceData.objectivs, 'state.courceData.objectivs')
-
             state.API.setScore(state.courceData.objectivs);
             state.API.saveData({ "courceData": state.courceData })
 
+        },
+        setVariations(state, oGlobal) {
+
+            state.courceData.variations[oGlobal.name] = oGlobal.value
         }
 
     },
@@ -129,7 +140,7 @@ export default {
         },
 
         saveState({ commit }) {
-            commit("saveState")
+            commit('saveState')
         },
 
         getScore({ commit, getters }, objective) {
@@ -137,6 +148,10 @@ export default {
             if (!getters.checkObjectivs(objective)) {
                 commit('getScore', objective)
             }
+        },
+
+        setVariations({ commit }, oGlobal) {
+            commit('setVariations', oGlobal)
         }
 
     },
