@@ -80,6 +80,7 @@ class SCORM2004 {
 	};
 
 	setLocation() {
+
 		const currentPage = window.location.href;
 		const locationResult = this.SCORM.get("cmi.location");
 
@@ -111,10 +112,8 @@ class SCORM2004 {
 		const route = this.SCORM.get("cmi.location")
 		const lastHtml = route.split('/').slice(-1).join()
 
-		console.log(route)
-
-
-		if (route === null || route === undefined || route == "null" || lastHtml === "index.html") {
+		if (route === null || route === undefined || route == "null" || lastHtml === "index.html" || Number.isNaN(lastHtml)) {
+			console.log("route empty")
 			return "/"
 		}
 		else {
@@ -144,20 +143,7 @@ class SCORM2004 {
 			this.SCORM.set("cmi.credit", objective.credit);
 		})
 
-		// target.forEach((objective, n) => {
-
-		// 	this.SCORM.set(`cmi.objectives.${n}.id`, objective.id);
-		// 	this.SCORM.set(`cmi.objectives.${n}.score.raw`, objective.score.raw);
-		// 	this.SCORM.set(`cmi.objectives.${n}.score.min`, objective.score.min);
-		// 	this.SCORM.set(`cmi.objectives.${n}.score.max`, objective.score.max);
-		// 	this.SCORM.set(`cmi.objectives.${n}.score.scaled`, objective.score.scaled);
-		// 	this.SCORM.set(`cmi.objectives.${n}.success_status`, objective.success_status);
-		// 	this.SCORM.set(`cmi.objectives.${n}.completion_status`, objective.completion_status);
-		// 	this.SCORM.set(`cmi.objectives.${n}.description`, objective.description);
-		// })
-
 		console.log(this.SCORM.get("cmi.completion_status") + " objective")
-
 
 	}
 
@@ -306,7 +292,10 @@ class SCORM2004 {
 
 				console.log(item.score)
 
+
 				total += item.score
+
+				this.SCORM.save();
 			})
 
 
@@ -366,6 +355,90 @@ class SCORM2004 {
 		console.log('data checked')
 	}
 
+	/** Получение Оbjectivs для восстановления в LMS */
+
+	getRestoreObjectivs() {
+
+		console.log('Check restore Objectives')
+
+		const _RESTORE = this.getSaveData()
+
+		console.log(_RESTORE, "_RESTORE")
+
+		if (Object.values(_RESTORE).length > 0) {
+
+			if (_RESTORE.courceData.objectivs.length > 0) {
+
+
+				Objectives.forEach((objective, n) => {
+
+					if (Number.isNaN(parseInt(this.SCORM.get(`cmi.objectives.${n}.score.min`))) || this.SCORM.get(`cmi.objectives.${n}.score.min`) === '') {
+
+						let currentScore = _RESTORE.courceData.objectivs[n].score
+
+						console.log('Start restore Objectives')
+
+						this.SCORM.set(`cmi.objectives.${n}.id`, objective.id);
+						this.SCORM.set(`cmi.objectives.${n}.score.raw`, objective.score.raw);
+						this.SCORM.set(`cmi.objectives.${n}.score.min`, objective.score.min);
+						this.SCORM.set(`cmi.objectives.${n}.score.max`, objective.score.max);
+						this.SCORM.set(`cmi.objectives.${n}.score.scaled`, objective.score.scaled);
+						this.SCORM.set(`cmi.objectives.${n}.success_status`, objective.success_status);
+						this.SCORM.set(`cmi.objectives.${n}.completion_status`, objective.completion_status);
+						this.SCORM.set(`cmi.objectives.${n}.description`, objective.description);
+						this.SCORM.set(`cmi.objectives.${n}.progress_measure`, objective.progress_measure);
+
+						if (currentScore) {
+
+							this.checkObjectivs(_RESTORE.courceData.objectivs)
+
+							console.log(`Objective: ${n} - restore`)
+						}
+
+						this.SCORM.save()
+
+						return true
+
+					}
+					else {
+
+						console.log('Objectives dont need to restore')
+
+						return false
+
+					}
+
+				})
+			}
+			else {
+
+				Objectives.forEach((objective, n) => {
+
+					this.SCORM.set(`cmi.objectives.${n}.id`, objective.id);
+					this.SCORM.set(`cmi.objectives.${n}.score.raw`, objective.score.raw);
+					this.SCORM.set(`cmi.objectives.${n}.score.min`, objective.score.min);
+					this.SCORM.set(`cmi.objectives.${n}.score.max`, objective.score.max);
+					this.SCORM.set(`cmi.objectives.${n}.score.scaled`, objective.score.scaled);
+					this.SCORM.set(`cmi.objectives.${n}.success_status`, objective.success_status);
+					this.SCORM.set(`cmi.objectives.${n}.completion_status`, objective.completion_status);
+					this.SCORM.set(`cmi.objectives.${n}.description`, objective.description);
+					this.SCORM.set(`cmi.objectives.${n}.progress_measure`, objective.progress_measure);
+
+					console.log(`Objective: ${n} - restore without score`)
+
+				})
+
+				this.SCORM.save()
+
+				console.log('Start restore Objectives without score')
+			}
+
+		}
+		else {
+			console.log('First lanch')
+		}
+
+	}
 }
 
 export const _SCORM2004 = new SCORM2004()

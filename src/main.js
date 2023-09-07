@@ -6,7 +6,7 @@ import '@/scss/style.scss'
 
 import router from "&/router/router.js"
 import store from "@/store/index.js"
-import gsapPlugin from "@/scripts/globalGsap"
+import gsapPlugin from "@/customPlugins/globalGsap"
 import App from '@/App.vue'
 
 import PerfectScrollbar from 'vue3-perfect-scrollbar'

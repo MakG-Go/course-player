@@ -55,7 +55,12 @@ export default {
 
     computed: {
         ...mapGetters("header", ["curentPage", "menu", "menuState"]),
-        ...mapGetters("status", ["start", "lastPage", "objectivs"]),
+        ...mapGetters("status", [
+            "start",
+            "lastPage",
+            "objectivs",
+            "restorAPIobjectivs",
+        ]),
 
         checkRouteName() {
             if (this.$route.name === undefined) {
@@ -84,10 +89,10 @@ export default {
         start() {
             if (this.start) {
                 this.addVisitPage(this.$route.name);
-
                 if (this.lastPage !== undefined && this.lastPage !== null) {
                     this.$router.push({ path: this.lastPage });
                 }
+                this.restorAPIobjectivs;
             }
         },
         $route() {
