@@ -149,6 +149,7 @@ export default {
                 commit('addVisitPage', page)
             }
         },
+
         getStart({ commit }) {
             commit('getStart')
         },
