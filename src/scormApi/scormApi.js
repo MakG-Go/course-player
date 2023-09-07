@@ -123,6 +123,8 @@ class SCORM2004 {
 
 	}
 
+	/** Создание глобальной задачи */
+
 	creareTotalObjectives(target) {
 
 		console.log(target, 'Цели')
@@ -146,6 +148,8 @@ class SCORM2004 {
 		console.log(this.SCORM.get("cmi.completion_status") + " objective")
 
 	}
+
+	/** Создание локальных задачь */
 
 	creareObjectives(target) {
 
@@ -292,13 +296,10 @@ class SCORM2004 {
 
 				console.log(item.score)
 
-
 				total += item.score
 
 				this.SCORM.save();
 			})
-
-
 
 			console.log(this.SCORM.get("cmi.objectives.0.score.raw"))
 
@@ -314,7 +315,6 @@ class SCORM2004 {
 	/** Записываем значение score */
 
 	setScore(data) {
-
 
 		const totalScore = this.checkObjectivs(data)
 
@@ -344,8 +344,10 @@ class SCORM2004 {
 
 		console.log('check score')
 
+		let totalVisit = this.getSaveData().courceData.totalVisit
 
-		if (cur >= min) {
+		if (cur >= min && totalVisit) {
+
 			this.SCORM.set("cmi.score.scaled", "1");
 			this.SCORM.set("cmi.progress_measure", "1.0");
 			this.SCORM.set("cmi.completion_status", "completed");
@@ -438,6 +440,42 @@ class SCORM2004 {
 			console.log('First lanch')
 		}
 
+	}
+
+	/** Проверяем просмотр всех страниц курса */
+
+	checkTotalVisit() {
+
+		let data = this.getSaveData()
+
+		console.log('--API check visit')
+
+		if (Object.values(data).length > 0) {
+
+			let totalVisit = data.courceData.totalVisit
+
+			console.log(totalVisit, '--check API totalVisit')
+
+			const currentScore = parseInt(this.SCORM.get("cmi.score.raw"))
+			const minimum = parseInt(this.SCORM.get("cmi.score.min"));
+
+			if (currentScore > minimum && totalVisit) {
+
+				this.SCORM.set("cmi.score.scaled", "1");
+				this.SCORM.set("cmi.progress_measure", "1.0");
+				this.SCORM.set("cmi.completion_status", "completed");
+				this.SCORM.set("cmi.success_status", "passed");
+
+				console.log("All paged was watcht")
+			}
+			else {
+
+				console.log("Not all paged was watcht")
+			}
+
+			this.SCORM.save();
+
+		}
 	}
 }
 

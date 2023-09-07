@@ -1,8 +1,7 @@
 import { _SCORM2004 } from "@/scormApi/scormApi.js"
 import { CONVERT } from "@/globals/Methods.js"
-import { unref } from "vue"
-// import _SCORM from "@/scormApi/scorm.js"
-// console.log(_SCORM)
+import { ALL_VISIT } from "@/globals/Const.js"
+
 
 export default {
 
@@ -15,6 +14,8 @@ export default {
             objectivs: [
             ],
             variations: {},
+            totalVisit: ALL_VISIT
+
         },
 
         start: false,
@@ -32,7 +33,12 @@ export default {
 
         checkVisit: (state) => (page) => state.courceData.pages.find(item => item.name === page),
 
-        visitedAll: (state, getters) => state.courceData.pages.length === getters.visitTotal,
+        visitedAll: (state, getters) => {
+            console.log(state.courceData.pages.length, "1")
+            console.log(getters.visitTotal, "2")
+
+            return state.courceData.pages.length === getters.visitTotal
+        },
 
         /** Запуск курса */
 
@@ -66,10 +72,15 @@ export default {
     },
     mutations: {
 
+        /** Добавляем просмотренные страницы */
+
         addVisitPage(state, page) {
 
-            state.courceData.pages.push({ name: page })
+            state.courceData.pages.push({ name: page });
+
         },
+
+        /** Старт курса */
 
         getStart(state) {
 
@@ -77,7 +88,7 @@ export default {
             state.API.initialize()
 
             if (Object.values(state.API.getSaveData()).length > 0) {
-                console.log('now')
+                console.log('now');
                 return state.courceData = state.API.getSaveData().courceData
             }
 
@@ -85,35 +96,53 @@ export default {
 
         getExit(state) {
 
-            state.API.saveData({ "courceData": state.courceData })
+            state.API.saveData({ "courceData": state.courceData });
 
         },
 
-        setLocation(state) {
+        /** Сохраняем текущюю страницу в suspend_data */
 
-            state.courceData.lastPage = state.API.setLocation()
+        setLocation(state, visit) {
+
+            state.courceData.totalVisit = visit;
+            state.courceData.lastPage = state.API.setLocation();
         },
+
+        /** Сохранение state.courceData в suspend_data */
 
         saveState(state) {
 
-            state.API.saveData({ "courceData": state.courceData })
+            state.API.saveData({ "courceData": state.courceData });
         },
+
+        /** Отправка и проверка objectivs*/
 
         getScore(state, objective) {
 
-            state.courceData.objectivs.push({ id: objective.id, score: objective.score })
+            state.courceData.objectivs.push({ id: objective.id, score: objective.score });
             state.API.setScore(state.courceData.objectivs);
-            state.API.saveData({ "courceData": state.courceData })
+            state.API.saveData({ "courceData": state.courceData });
 
         },
+
+        /** Создание т редактирование глобальных переменных в API */
+
         setVariations(state, oGlobal) {
 
-            state.courceData.variations[oGlobal.name] = oGlobal.value
+            state.courceData.variations[oGlobal.name] = oGlobal.value;
+        },
+
+        /** Проверка на просмотр всех страниц */
+
+        checkTotalVisit(state) {
+
+            state.API.checkTotalVisit()
         }
 
     },
 
     actions: {
+
         addVisitPage({ commit, getters }, page) {
             if (!getters.checkVisit(page) && page != undefined) {
 
@@ -129,23 +158,28 @@ export default {
             commit('getExit')
         },
 
-        checkCompleted({ commit, getters }) {
-            if (getters.visitedAll) {
-                commit('checkCompleted')
-            }
+        setLocation({ commit, getters }) {
+
+            let totalVisit
+
+            ALL_VISIT ? totalVisit = true : totalVisit = getters.visitedAll
+
+            commit('setLocation', totalVisit)
         },
 
-        setLocation({ commit }) {
-            commit('setLocation')
+        checkTotalVisit({ commit }) {
+            commit("checkTotalVisit")
         },
 
         saveState({ commit }) {
+
             commit('saveState')
         },
 
         getScore({ commit, getters }, objective) {
 
             if (!getters.checkObjectivs(objective)) {
+
                 commit('getScore', objective)
             }
         },
@@ -153,6 +187,5 @@ export default {
         setVariations({ commit }, oGlobal) {
             commit('setVariations', oGlobal)
         }
-
     },
 }

@@ -72,7 +72,12 @@ export default {
     },
 
     methods: {
-        ...mapActions("status", ["addVisitPage", "setLocation", "saveState"]),
+        ...mapActions("status", [
+            "addVisitPage",
+            "setLocation",
+            "saveState",
+            "checkTotalVisit",
+        ]),
 
         /** Блокируем скролл при открытии меню */
 
@@ -97,11 +102,10 @@ export default {
         },
         $route() {
             if (this.start) {
-                this.setLocation();
-
                 this.addVisitPage(this.$route.name);
-
+                this.setLocation();
                 this.saveState();
+                this.checkTotalVisit();
             }
         },
     },
