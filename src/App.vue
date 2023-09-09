@@ -101,6 +101,7 @@ export default {
             }
         },
         $route() {
+            console.log("Route");
             if (this.start) {
                 this.addVisitPage(this.$route.name);
                 this.setLocation();

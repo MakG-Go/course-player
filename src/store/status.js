@@ -33,12 +33,7 @@ export default {
 
         checkVisit: (state) => (page) => state.courceData.pages.find(item => item.name === page),
 
-        visitedAll: (state, getters) => {
-            console.log(state.courceData.pages.length, "1")
-            console.log(getters.visitTotal, "2")
-
-            return state.courceData.pages.length === getters.visitTotal
-        },
+        visitedAll: (state, getters) => state.courceData.pages.length === getters.visitTotal,
 
         /** Запуск курса */
 

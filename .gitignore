@@ -10,10 +10,8 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
-course
 *.local
 package-lock.json
-.scormcontent
 
 # Editor directories and files
 .vscode/*
@@ -26,3 +24,4 @@ package-lock.json
 *.sln
 *.sw?
 *.zip
+/scormcontent

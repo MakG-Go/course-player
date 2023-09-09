@@ -1,10 +1,12 @@
 import pipwerks from 'pipwerks-scorm-api-wrapper';
 
-import { ScormMockApi } from "@/scormData/scormData";
+import { CONSOLE_DISABLE } from "@/globals/Const";
+
+import { ScormMockApi } from "@/scormData/scormData.js";
 /** Импортируем главную цель курса */
-import { TotalObjectives } from "@/scormData/totalObjectivs";
+import { TotalObjectives } from "@/scormData/totalObjectivs.js";
 /** Импортируем цели курса */
-import { Objectives } from '&/objectivs';
+import { Objectives } from '&/courseData/objectivs.js';
 
 /** Для отладки SCORM передать true */
 
@@ -17,10 +19,13 @@ pipwerks.SCORM.version = "2004"
 class SCORM2004 {
 
 	constructor() {
+		this.originalConsoleLog = console.log;
 		this.SCORM = pipwerks.SCORM;
 	}
 
 	initialize() {
+
+		this.disableConsoleLog()
 
 		this.SCORM.init();
 
@@ -56,6 +61,8 @@ class SCORM2004 {
 
 		ScormMockApi.Initialize()
 
+		this.restoreConsoleLog()
+
 	};
 
 	terminate() {
@@ -63,6 +70,7 @@ class SCORM2004 {
 		this.SCORM.quit();
 
 		console.log('terminate');
+
 	};
 
 	getLocation() {
@@ -77,9 +85,12 @@ class SCORM2004 {
 		}
 
 		console.log('getLocation')
+
 	};
 
 	setLocation() {
+
+		this.disableConsoleLog()
 
 		const currentPage = window.location.href;
 		const locationResult = this.SCORM.get("cmi.location");
@@ -88,14 +99,12 @@ class SCORM2004 {
 
 			this.SCORM.set("cmi.location", currentPage);
 
-			// console.log("Location saved: " + currentPage);
 
 		}
 		else if (this.SCORM.get("cmi.location") !== currentPage) {
 
 			this.SCORM.set("cmi.location", currentPage);
 
-			// console.log("New Location saved: " + currentPage);
 		}
 		else {
 			console.log("Location already exists: " + locationResult);
@@ -103,29 +112,47 @@ class SCORM2004 {
 
 		ScormMockApi.SetValue("cmi.location", this.SCORM.get("cmi.location"))
 
-		console.log('setLocation')
+		console.log('setLocation');
+
+		this.restoreConsoleLog();
+
+
 	};
 
 	getLastPage() {
 
+		this.disableConsoleLog()
+
+		let path
 		// const route = ScormMockApi.GetValue("cmi.location")
 		const route = this.SCORM.get("cmi.location")
 		const lastHtml = route.split('/').slice(-1).join()
 
 		if (route === null || route === undefined || route == "null" || lastHtml === "index.html" || Number.isNaN(lastHtml)) {
 			console.log("route empty")
-			return "/"
+
+			path = "/"
+
 		}
 		else {
 			// return "/" + ScormMockApi.GetValue("cmi.location").split('/').slice(-1).join()
-			return "/" + lastHtml
+
+			path = "/" + lastHtml
+
 		}
+
+		this.restoreConsoleLog();
+
+		return path
+
 
 	}
 
 	/** Создание глобальной задачи */
 
 	creareTotalObjectives(target) {
+
+		this.disableConsoleLog()
 
 		console.log(target, 'Цели')
 
@@ -152,6 +179,8 @@ class SCORM2004 {
 	/** Создание локальных задачь */
 
 	creareObjectives(target) {
+
+		this.disableConsoleLog()
 
 		console.log(target, 'Цели')
 
@@ -184,6 +213,8 @@ class SCORM2004 {
 
 	saveData(data) {
 
+		this.disableConsoleLog()
+
 		console.log(data, 'save')
 
 		let suspend = JSON.stringify(data)
@@ -200,37 +231,48 @@ class SCORM2004 {
 
 		console.log(this.SCORM.get('cmi.suspend_data'), '--Scorm suspend')
 
+		this.restoreConsoleLog();
+
 	}
 
 	/** Получаем сохранённые данные как из localStorage, так и из cmi.suspend_data */
 
 	getSaveData() {
-		let state
 
-		console.log(this.SCORM.get('cmi.suspend_data'), "suspend_data on start")
+		this.disableConsoleLog()
+
+		let state;
+
+		console.log(this.SCORM.get('cmi.suspend_data'), "suspend_data on start");
 
 		if (this.SCORM.get('cmi.suspend_data') !== "" && this.SCORM.get('cmi.suspend_data') !== 'null') {
-			console.log('get Scorm')
-			return state = JSON.parse(this.SCORM.get('cmi.suspend_data'))
+			console.log('get Scorm');
+
+			state = JSON.parse(this.SCORM.get('cmi.suspend_data'));
 
 		}
 		if (ScormMockApi.GetValue('cmi.suspend_data') !== "" && ScormMockApi.GetValue('cmi.suspend_data') !== 'null') {
 
 			console.log('get ScormMock')
-			return state = JSON.parse(ScormMockApi.GetValue('cmi.suspend_data'))
+
+			state = JSON.parse(ScormMockApi.GetValue('cmi.suspend_data'));
 
 		}
 		else {
 			console.log('get empty state')
-			return state = {}
+
+			state = {};
 		}
 
+		return state
 
 	}
 
 	/** Проверяем результат */
 
 	checkObjectivs(data) {
+
+		this.disableConsoleLog()
 
 		console.log(data, 'checkData')
 
@@ -309,12 +351,16 @@ class SCORM2004 {
 
 		console.log(total)
 
+		this.restoreConsoleLog();
+
 		return total
 	}
 
 	/** Записываем значение score */
 
 	setScore(data) {
+
+		this.disableConsoleLog()
 
 		const totalScore = this.checkObjectivs(data)
 
@@ -336,11 +382,15 @@ class SCORM2004 {
 
 
 		this.SCORM.save();
+
+		this.restoreConsoleLog();
 	}
 
 	/** Проверяем результат */
 
 	checkTotalObjectivs(cur, min) {
+
+		this.disableConsoleLog()
 
 		console.log('check score')
 
@@ -355,22 +405,23 @@ class SCORM2004 {
 		}
 
 		console.log('data checked')
+
+		this.restoreConsoleLog();
 	}
 
 	/** Получение Оbjectivs для восстановления в LMS */
 
 	getRestoreObjectivs() {
 
+		this.disableConsoleLog()
+
 		console.log('Check restore Objectives')
 
 		const _RESTORE = this.getSaveData()
 
-		console.log(_RESTORE, "_RESTORE")
-
 		if (Object.values(_RESTORE).length > 0) {
 
 			if (_RESTORE.courceData.objectivs.length > 0) {
-
 
 				Objectives.forEach((objective, n) => {
 
@@ -399,14 +450,14 @@ class SCORM2004 {
 
 						this.SCORM.save()
 
-						return true
+						// return true
 
 					}
 					else {
 
 						console.log('Objectives dont need to restore')
 
-						return false
+						// return false
 
 					}
 
@@ -440,11 +491,15 @@ class SCORM2004 {
 			console.log('First lanch')
 		}
 
+		this.restoreConsoleLog()
+
 	}
 
 	/** Проверяем просмотр всех страниц курса */
 
 	checkTotalVisit() {
+
+		this.disableConsoleLog()
 
 		let data = this.getSaveData()
 
@@ -476,6 +531,23 @@ class SCORM2004 {
 			this.SCORM.save();
 
 		}
+
+		this.restoreConsoleLog();
+	}
+
+	/** Выключаем console.log */
+
+	disableConsoleLog() {
+
+		if (CONSOLE_DISABLE) {
+			console.log = function () { };
+
+		}
+
+	}
+
+	restoreConsoleLog = () => {
+		console.log = this.originalConsoleLog;
 	}
 }
 
