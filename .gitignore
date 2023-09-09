@@ -24,4 +24,4 @@ package-lock.json
 *.sln
 *.sw?
 *.zip
-/scormcontent
+packageFolder/scormcontent
