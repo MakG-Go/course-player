@@ -3,10 +3,10 @@ import pipwerks from 'pipwerks-scorm-api-wrapper';
 import { CONSOLE_DISABLE } from "@/globals/Const";
 
 import { ScormMockApi } from "@/scormData/scormData.js";
-/** Импортируем главную цель курса */
-import { TotalObjectives } from "@/scormData/totalObjectivs.js";
+
 /** Импортируем цели курса */
-import { Objectives } from '&/courseData/objectivs.js';
+
+import { TotalObjectives, Objectives } from '&/courseData/objectivs.js';
 
 /** Для отладки SCORM передать true */
 
@@ -248,23 +248,21 @@ class SCORM2004 {
 		if (this.SCORM.get('cmi.suspend_data') !== "" && this.SCORM.get('cmi.suspend_data') !== 'null') {
 			console.log('get Scorm');
 
-			state = JSON.parse(this.SCORM.get('cmi.suspend_data'));
+			return state = JSON.parse(this.SCORM.get('cmi.suspend_data'));
 
 		}
 		if (ScormMockApi.GetValue('cmi.suspend_data') !== "" && ScormMockApi.GetValue('cmi.suspend_data') !== 'null') {
 
 			console.log('get ScormMock')
 
-			state = JSON.parse(ScormMockApi.GetValue('cmi.suspend_data'));
+			return state = JSON.parse(ScormMockApi.GetValue('cmi.suspend_data'));
 
 		}
 		else {
 			console.log('get empty state')
 
-			state = {};
+			return state = {};
 		}
-
-		return state
 
 	}
 
@@ -351,8 +349,6 @@ class SCORM2004 {
 
 		console.log(total)
 
-		this.restoreConsoleLog();
-
 		return total
 	}
 
@@ -419,6 +415,8 @@ class SCORM2004 {
 
 		const _RESTORE = this.getSaveData()
 
+		console.log(_RESTORE, "_RESTORE")
+
 		if (Object.values(_RESTORE).length > 0) {
 
 			if (_RESTORE.courceData.objectivs.length > 0) {
@@ -450,14 +448,14 @@ class SCORM2004 {
 
 						this.SCORM.save()
 
-						// return true
+						return true
 
 					}
 					else {
 
 						console.log('Objectives dont need to restore')
 
-						// return false
+						return false
 
 					}
 

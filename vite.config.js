@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { VitePluginFonts } from 'vite-plugin-fonts';
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import path from "path"
 
 // https://vitejs.dev/config/
@@ -29,6 +30,16 @@ export default defineConfig({
         },
         ],
       },
+    }),
+    createSvgIconsPlugin({
+
+      iconDirs: [path.resolve(__dirname, './src/Course_branch/Наушники/assets/icons')], /** Путь до svg файлов для создания svg спрайта */
+
+      symbolId: 'icon-[dir]-[name]',
+
+      inject: 'body-last' | 'body-first',
+
+      customDomId: '__svg__icons__dom__',
     }),
   ],
   server: {

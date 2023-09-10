@@ -15,7 +15,7 @@
         </webGl> -->
 
         <router-link
-            :to="{ name: 'tutorial-page' }"
+            :to="{ name: 'Start' }"
             v-if="!start"
             @click="getStart"
             class="btn"

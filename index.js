@@ -115,7 +115,13 @@ function cleanCourseFolder() {
 
 // Создание арихива курса
 function createZipArchive() {
-    const output = fs.createWriteStream(path.join('./' + config.id + '.zip'));
+    // const output = fs.createWriteStream(path.join('./' + config.id + '.zip'));
+    // const archive = archiver('zip', { zlib: { level: 9 } });
+
+    const zipFileName = `${config.id}.zip`;
+    const outputPath = path.join('./SCORM', zipFileName);
+
+    const output = fs.createWriteStream(outputPath);
     const archive = archiver('zip', { zlib: { level: 9 } });
 
     output.on('close', function () {

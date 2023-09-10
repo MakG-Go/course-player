@@ -1,0 +1,31 @@
+.webGl {
+    position: fixed;
+    top: 0;
+    left: 0;
+    outline: none;
+    clip-path: circle(100%);
+    transition-property: clip-path, height;
+    transition-duration: 0.8s;
+    transition-timing-function: ease-in-out;
+    z-index: 100;
+
+    &__btn {
+        &_container {
+            z-index: 101;
+            display: flex;
+            justify-content: center;
+            position: absolute;
+            bottom: 150px;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+        }
+    }
+}
+
+.disable {
+    .webGl {
+        clip-path: circle(0px at 50% 50%);
+        // height: 0;
+    }
+}

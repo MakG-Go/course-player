@@ -1,7 +1,5 @@
 
-
 import { createRouter, createWebHistory } from "vue-router"
-import splash from '&/views/Splash.vue'
 import tutorial from '&/views/Tutorial.vue'
 import final from '&/views/Final.vue'
 import components from '&/views/pages/Components_example.vue'
@@ -15,9 +13,8 @@ import { gsap } from 'gsap';
 
 
 const routes = [
-    // { path: '/', name: 'splash-page', component: splash },
-    { path: '/', name: 'tutorial-page', component: tutorial, props: true },
-    { path: '/Start', name: 'Start', component: Start, props: true },
+    { path: '/tutorial-page', name: 'tutorial-page', component: tutorial, props: true },
+    { path: '/', name: 'Start', component: Start, props: true },
     { path: '/components_example', name: 'components_example', component: components, props: true },
     { path: '/final', name: 'final', component: final, props: true },
     { path: '/page_1', name: 'page_1', component: page_1, props: true },

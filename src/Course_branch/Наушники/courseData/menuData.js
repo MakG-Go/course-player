@@ -3,8 +3,6 @@
 export function courseMenu() {
     return {
         routs: [
-
-            // { pageRoute: "splash-page", name: "Splash" },
             { pageRoute: 'Start', name: 'Start' },
 
             { pageRoute: "tutorial-page", name: "Tutorial" },

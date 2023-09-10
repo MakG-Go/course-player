@@ -87,7 +87,7 @@ export default {
 <style lang="scss" scoped>
 .menu {
     &__scroll {
-        height: calc(50vh - 75px);
+        height: calc(50vh - 5px);
         padding-right: 3rem;
     }
 }
