@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { keybordData_1 } from "&/testingData";
+import { keybordData_1 } from "&/courseData/testingData";
 import KeybordPracticeVue from "@/components/KeybordPractice.vue";
 export default {
     components: { KeybordPracticeVue },

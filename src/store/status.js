@@ -1,5 +1,6 @@
-import { _SCORM2004 } from "@/scormApi/scormApi.js"
-import { CONVERT } from "@/globals/Methods.js"
+
+import { _SCORMV } from "@/globals/Methods"
+import { _CONVERT } from "@/globals/Methods.js"
 import { ALL_VISIT } from "@/globals/Const.js"
 
 
@@ -14,12 +15,12 @@ export default {
             objectivs: [
             ],
             variations: {},
-            totalVisit: ALL_VISIT
+            totalVisit: ALL_VISIT,
 
         },
 
         start: false,
-        API: _SCORM2004,
+        API: _SCORMV(),
 
     },
 
@@ -47,11 +48,7 @@ export default {
 
         objectivs: (state) => state.courceData.objectivs,
 
-        checkObjectivs(state) {
-            return (object) => {
-                return CONVERT(state.courceData.objectivs).some(item => item.id === object.id)
-            }
-        },
+        checkObjectivs: (state) => (object) => _CONVERT(state.courceData.objectivs).some(item => item.id === object.id),
 
         /** Восстановление изначальных API Objectivs */
 
@@ -97,10 +94,11 @@ export default {
 
         /** Сохраняем текущюю страницу в suspend_data */
 
-        setLocation(state, visit) {
+        setLocation(state, { totalVisit, location }) {
 
-            state.courceData.totalVisit = visit;
-            state.courceData.lastPage = state.API.setLocation();
+            state.courceData.totalVisit = totalVisit;
+
+            state.courceData.lastPage = state.API.setLocation(location);
         },
 
         /** Сохранение state.courceData в suspend_data */
@@ -112,7 +110,7 @@ export default {
 
         /** Отправка и проверка objectivs*/
 
-        getScore(state, objective) {
+        setScore(state, objective) {
 
             state.courceData.objectivs.push({ id: objective.id, score: objective.score });
             state.API.setScore(state.courceData.objectivs);
@@ -154,13 +152,13 @@ export default {
             commit('getExit')
         },
 
-        setLocation({ commit, getters }) {
+        setLocation({ commit, getters }, location) {
 
             let totalVisit
 
             ALL_VISIT ? totalVisit = true : totalVisit = getters.visitedAll
 
-            commit('setLocation', totalVisit)
+            commit('setLocation', { totalVisit, location })
         },
 
         checkTotalVisit({ commit }) {
@@ -172,11 +170,11 @@ export default {
             commit('saveState')
         },
 
-        getScore({ commit, getters }, objective) {
+        setScore({ commit, getters }, objective) {
 
             if (!getters.checkObjectivs(objective)) {
 
-                commit('getScore', objective)
+                commit('setScore', objective)
             }
         },
 

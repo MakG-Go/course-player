@@ -226,7 +226,7 @@ export default {
         };
     },
     methods: {
-        ...mapActions("status", ["getScore", "setVariations"]),
+        ...mapActions("status", ["setScore", "setVariations"]),
         choyceLitter(key) {
             let answerLength =
                 this.questionData[this.questionCounter].word.length;
@@ -381,7 +381,7 @@ export default {
 
         showFeedback() {
             this.questionCounter + 1 > this.questionData.length
-                ? this.getScore({ id: "Total", score: 100 }) &&
+                ? this.setScore({ id: "Total", score: 100 }) &&
                   this.setVariations({ name: "something", value: 2500 })
                 : "";
             return this.questionCounter + 1 > this.questionData.length;

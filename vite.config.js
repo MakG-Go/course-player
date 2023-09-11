@@ -8,7 +8,7 @@ import path from "path"
 export default defineConfig({
   base: "./",
   root: './',
-  publicDir: './src/Course_branch/Наушники/assets', /** Путь до статичесского контента конкретного курса img, video, и.т.д ...*/
+  publicDir: './src/Course_branch/Стиралки/assets', /** Путь до статичесского контента конкретного курса img, video, и.т.д ...*/
   plugins: [
     vue(),
     VitePluginFonts({
@@ -33,7 +33,7 @@ export default defineConfig({
     }),
     createSvgIconsPlugin({
 
-      iconDirs: [path.resolve(__dirname, './src/Course_branch/Наушники/assets/icons')], /** Путь до svg файлов для создания svg спрайта */
+      iconDirs: [path.resolve(__dirname, './src/Course_branch/Стиралки/assets/icons')], /** Путь до svg файлов для создания svg спрайта */
 
       symbolId: 'icon-[dir]-[name]',
 
@@ -48,7 +48,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
-      '&': path.resolve(__dirname, './src/Course_branch/Наушники') /** Путь до корня конкретного курса*/
+      '&': path.resolve(__dirname, './src/Course_branch/Стиралки') /** Путь до корня конкретного курса*/
     }
   },
   build: {
