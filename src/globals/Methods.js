@@ -12,3 +12,4 @@ export const _SCORMV = () => {
 		return _SCORM12
 	}
 }
+

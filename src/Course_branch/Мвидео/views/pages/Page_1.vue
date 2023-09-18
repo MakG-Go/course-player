@@ -13,7 +13,11 @@
             <div class="baloon_robot baloon_color-white">
                 <div class="row middle">
                     <div class="col-lg-6 col-xs-6 order-xs-1">
-                        <Vue3Lottie class="robot__talck" :animationData="bot" />
+                        <Vue3Lottie
+                            class="robot__talck"
+                            :animationData="bot_1"
+                            :assetsPath="path_1"
+                        />
                     </div>
                     <div class="col-lg-6 col-xs-6 mb-xs-30">
                         <div class="mr-100">
@@ -48,7 +52,7 @@
                 </div>
             </div>
         </div>
-        <div class="container-full mb-red">
+        <div class="mb-orange">
             <div
                 class="baloon_large baloon_border_radius-50 baloon_color-white baloon_shadow-standart relative"
             >
@@ -86,7 +90,7 @@
                 </div>
             </div>
         </div>
-        <div class="container-full mb-red">
+        <div class="mb-orange">
             <div
                 class="baloon_large baloon_border_radius-50 baloon_color-black relative"
             >
@@ -122,7 +126,8 @@
                         <div class="col-lg-5 col-xs-8">
                             <Vue3Lottie
                                 class="robot__talck relative"
-                                :animationData="bot"
+                                :animationData="bot_1"
+                                :assetsPath="path_1"
                             />
                         </div>
                     </div>
@@ -130,9 +135,13 @@
                 <div
                     class="baloon_middle baloon_border_radius-20 baloon_color-gray mb-orange"
                 >
-                    <div class="row">
+                    <div class="row jf-center">
                         <div class="col-lg-5 col-xs-8 order-xs-1">
-                            <!-- --------------------------------- Fly Robot -->
+                            <Vue3Lottie
+                                class="robot__fly"
+                                :animationData="bot_3"
+                                :assetsPath="path_3"
+                            />
                         </div>
                         <div class="col-lg-7 col-xs-8">
                             <p class="text-m text-red text-uppercase mb-pink">
@@ -161,10 +170,18 @@
         </div>
 
         <div class="container mb-red">
-            <div class="robot-dialog">
-                <!-- litle robot -->
-                <div class="robot-dialog_baloon mb-xs-20">
-                    Давай скорее начнём обучение!
+            <div class="row jf-center">
+                <div class="col-lg-5 col-xs-6 order-xs-1">
+                    <Vue3Lottie
+                        class="robot__fly"
+                        :animationData="bot_3"
+                        :assetsPath="path_3"
+                    />
+                </div>
+                <div class="col-lg-5 col-xs-6">
+                    <div class="robot-dialog_baloon mb-xs-20">
+                        Давай скорее начнём обучение!
+                    </div>
                 </div>
             </div>
         </div>
@@ -173,9 +190,12 @@
 </template>
 
 <script>
-import { botLottie_1 } from "@/assets/lottie/bot_1.js";
+const path_1 = new URL("/lottie/bot_1", import.meta.url).href + "/";
+const path_3 = new URL("/lottie/bot_3", import.meta.url).href + "/";
+
 import { Vue3Lottie } from "vue3-lottie";
-import bot from "@/assets/lottie/bot_1.json";
+import bot_1 from "@/assets/lottie/bot_1.json";
+import bot_3 from "@/assets/lottie/bot_3.json";
 
 export default {
     components: {
@@ -183,16 +203,12 @@ export default {
     },
     data() {
         return {
-            bot,
+            bot_1,
+            bot_3,
+            path_1,
+            path_3,
         };
     },
-
-    mounted() {
-        bot.assets.forEach((item, key) => {
-            item.p = botLottie_1[key];
-        });
-    },
-
     computed: {},
 };
 </script>

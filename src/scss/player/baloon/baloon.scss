@@ -146,6 +146,8 @@
         flex-wrap: wrap;
         align-items: center;
         justify-content: center;
+        max-width: 75vw;
+        margin: 0 auto;
         @media #{$breakpoint-xs-only} {
             flex-direction: column;
         }
@@ -157,8 +159,6 @@
         }
         &_baloon {
             margin-bottom: auto;
-            flex-basis: 41.6666%;
-            max-width: 41.6666%;
             padding: 40px 60px;
             border-radius: 40px 40px 40px 0px;
             background-color: white;
@@ -176,5 +176,9 @@
     &__talck {
         width: 18.181em !important;
         height: 19.09em !important;
+    }
+    &__fly {
+        width: 13.181em !important;
+        height: 14.09em !important;
     }
 }

@@ -47,7 +47,6 @@ export default defineConfig({
           }
           return 'assets/[name][extname]';
         },
-        // assetFileNames: 'assets/[name][extname]'
       },
     },
   },

@@ -1,5 +1,5 @@
 
-import { createRouter, createWebHistory } from "vue-router"
+import { createRouter, createWebHashHistory } from "vue-router"
 import tutorial from '&/views/Tutorial.vue'
 import final from '&/views/Final.vue'
 import components from '&/views/pages/Components_example.vue'
@@ -23,9 +23,9 @@ const routes = [
 ]
 
 export default createRouter({
+    history: createWebHashHistory(),
     routes,
     base: '/',
-    history: createWebHistory(),
 
     /** Для скролла до элемента из меню */
 
