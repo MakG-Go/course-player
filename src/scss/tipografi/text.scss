@@ -1,0 +1,55 @@
+.text {
+    &-white {
+        color: $white;
+    }
+    &-red {
+        color: $red;
+    }
+    &-gray {
+        color: $gray;
+    }
+    &-uppercase {
+        text-transform: uppercase;
+    }
+    &-center {
+        text-align: center;
+    }
+    &-left {
+        text-align: left;
+    }
+    &-right {
+        text-align: right;
+    }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+    font-family: $Bold !important;
+    font-weight: bold;
+    line-height: 1;
+}
+
+h1,
+.h1 {
+    font-size: 2.181em;
+}
+
+h2,
+.h2 {
+    font-size: 1.727em;
+}
+
+h3,
+.h3 {
+    font-size: 1.363em;
+}

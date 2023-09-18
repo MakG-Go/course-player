@@ -1,0 +1,26 @@
+// Grid
+$grid-columns: 12 !default; // Set number of columns in the grid
+$grid-columns-xs: 6 !default; // Set number of columns in the grid
+$grid-columns-lg: 12 !default; // Set number of columns in the grid
+
+$xs-max: 719px !default; // Set xs breakpoint's max width
+$lg-min: 720px !default; // Set lg breakpoint's max width
+
+$gutter: 0 10px !default; // Set gutter size
+$gutter-lg: 0 10px !default; // Set gutter size
+$gutter-xs: 0 7.5px !default; // Set gutter size
+
+$content-well-max-width: "none" !default; // Set the max-width of the content well
+
+$xs-start: ($xs-max); // Generate sm breakpoint's min width
+$lg-start: ($lg-min); // Generate lg breakpoint's min width
+
+// Breakpoints
+// Create breakpoint range statements to be used in media queries
+$breakpoint-xs-only: "only screen and (max-width: #{$xs-start})"; // 0 -> xs-max range
+$breakpoint-lg-only: "only screen and (min-width: #{$lg-start})"; // lg-start -> lg-max range
+
+$breakpoints-all: ($breakpoint-xs-only, $breakpoint-lg-only);
+
+$breakpoint-all-prefixes: ("xs", "lg");
+$breakpoint-up-prefixes: ("xs", "lg");

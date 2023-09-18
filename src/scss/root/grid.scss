@@ -1,3 +1,8 @@
+@use "sass:math";
+@import "@/scss/mixins/_variables";
+@import "@/scss/mixins/_grid";
+@import "@/scss/mixins/_visibility-mixins";
+
 .flex {
     display: flex !important;
     &__col {
@@ -33,4 +38,196 @@
     &-center {
         justify-content: center !important;
     }
+}
+
+.row {
+    @include row();
+}
+
+.row.reverse {
+    @include row-reverse();
+}
+
+.row.natural-height {
+    @include row-natural-height();
+}
+
+.row.flex-column {
+    @include row-flex-column();
+}
+
+.col {
+    @include col();
+}
+
+.col.reverse {
+    @include col-reverse();
+}
+
+@mixin col-factory-all($thisPrefix) {
+    @for $i from 1 through $grid-columns {
+        .col-#{$i} {
+            box-sizing: border-box;
+            flex-basis: math.div(100%, $grid-columns-xs) * $i;
+            max-width: math.div(100%, $grid-columns-xs) * $i;
+            padding: $gutter-lg;
+
+            @media screen and (max-width: 719px) {
+                padding: $gutter-xs;
+            }
+        }
+
+        .col-offset-#{$i} {
+            margin-left: math.div(100%, $grid-columns-xs) * $i;
+        }
+    }
+
+    .row.start {
+        justify-content: flex-start;
+    }
+
+    .row.center {
+        justify-content: center;
+    }
+
+    .row.end {
+        justify-content: flex-end;
+    }
+
+    .row.top {
+        align-items: flex-start;
+    }
+
+    .row.middle {
+        align-items: center;
+    }
+
+    .row.bottom {
+        align-items: flex-end;
+    }
+
+    .row.around {
+        justify-content: space-around;
+    }
+
+    .row.between {
+        justify-content: space-between;
+    }
+}
+
+@mixin col-factory-xs($thisPrefix-xs) {
+    @for $i from 1 through $grid-columns-xs {
+        .col-#{$thisPrefix-xs}-#{$i} {
+            box-sizing: border-box;
+            flex-basis: math.div(100%, $grid-columns-xs) * $i;
+            max-width: math.div(100%, $grid-columns-xs) * $i;
+            padding: $gutter-xs;
+        }
+
+        .col-#{$thisPrefix-xs}-offset-#{$i} {
+            margin-left: math.div(100%, $grid-columns-xs) * $i;
+        }
+    }
+}
+
+@mixin col-factory-lg($thisPrefix-lg) {
+    @for $i from 1 through $grid-columns-lg {
+        .col-#{$thisPrefix-lg}-#{$i} {
+            box-sizing: border-box;
+            flex-basis: math.div(100%, $grid-columns-lg) * $i;
+            max-width: math.div(100%, $grid-columns-lg) * $i;
+            padding: $gutter-lg;
+        }
+
+        .col-#{$thisPrefix-lg}-offset-#{$i} {
+            margin-left: math.div(100%, $grid-columns-lg) * $i;
+        }
+    }
+}
+
+// Mixin to run inside of for loop - creates col/breakpoint classes * Not for developer use *
+@mixin col-factory($thisPrefix) {
+    @for $i from 1 through $grid-columns {
+        .order-#{$thisPrefix}-#{$i} {
+            order: #{$i};
+        }
+    }
+
+    .row.start-#{$thisPrefix} {
+        justify-content: flex-start;
+    }
+
+    .row.center-#{$thisPrefix} {
+        justify-content: center;
+    }
+
+    .row.end-#{$thisPrefix} {
+        justify-content: flex-end;
+    }
+
+    .row.top-#{$thisPrefix} {
+        align-items: flex-start;
+    }
+
+    .row.middle-#{$thisPrefix} {
+        align-items: center;
+    }
+
+    .row.bottom-#{$thisPrefix} {
+        align-items: flex-end;
+    }
+
+    .row.around-#{$thisPrefix} {
+        justify-content: space-around;
+    }
+
+    .row.between-#{$thisPrefix} {
+        justify-content: space-between;
+    }
+
+    .first-#{$thisPrefix} {
+        order: -1;
+    }
+
+    .last-#{$thisPrefix} {
+        order: 1;
+    }
+}
+
+// Mixin to run inside of for loop - creates col/breakpoint classes
+
+@for $i from 1 through length($breakpoint-up-prefixes) {
+    $thisPrefix: nth($breakpoint-up-prefixes, $i);
+    $thisPrefix-xs: "xs";
+    $thisPrefix-lg: "lg";
+
+    @if $thisPrefix== "xs" {
+        @include col-factory-all($thisPrefix);
+
+        @media #{$breakpoint-xs-only} {
+            @include col-factory-xs($thisPrefix-xs);
+            @include col-factory($thisPrefix);
+        }
+    } @else if $thisPrefix== "lg" {
+        @media #{$breakpoint-lg-only} {
+            @include col-factory-lg($thisPrefix-lg);
+            @include col-factory($thisPrefix);
+        }
+    }
+}
+
+.bottom {
+    margin-top: auto;
+}
+.top {
+    margin-bottom: auto;
+}
+.left {
+    margin-right: auto;
+}
+.rirht {
+    margin-left: auto;
+}
+.center {
+    margin: 0 auto;
 }

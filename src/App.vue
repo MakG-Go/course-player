@@ -11,8 +11,8 @@
             @ps-scroll-y="onGlobalScroll"
             class="js-global-scroll"
         >
-            <div class="wrapper">
-                <div class="container">
+            <div class="wrapper" :class="getBlackWrapper">
+                <div class="container-full">
                     <!-- Меню/Хедер -->
 
                     <Header> </Header>
@@ -35,10 +35,10 @@
                     <!-- Кнопки навигации -->
 
                     <NavigationButton>
-                        <h2 class="btn__counter">
+                        <!-- <h2 class="btn__counter">
                             {{ checkRouteName + 1 }}/{{ menu.length }}
-                        </h2></NavigationButton
-                    >
+                        </h2> -->
+                    </NavigationButton>
                 </div>
             </div>
         </perfect-scrollbar>
@@ -68,6 +68,11 @@ export default {
             } else {
                 return this.curentPage(this.$route.name);
             }
+        },
+        getBlackWrapper() {
+            return {
+                "wrapper-black": this.$route.name === "tutorial-page",
+            };
         },
     },
 
@@ -101,7 +106,6 @@ export default {
             }
         },
         $route() {
-            console.log(this.$route.path);
             if (this.start) {
                 this.addVisitPage(this.$route.name);
                 this.setLocation(this.$route.path);
@@ -114,7 +118,4 @@ export default {
 </script>
 
 <style>
-.wrapper {
-    margin: 55px 0;
-}
 </style>

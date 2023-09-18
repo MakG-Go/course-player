@@ -1,14 +1,22 @@
 <template>
     <div class="navigation-buttons">
-        <router-link class="btn" :to="{ name: goPrev }">Prev</router-link>
+        <router-link class="nav-btn" :to="{ name: goPrev }">
+            <SvgIcon name="prev"></SvgIcon
+        ></router-link>
         <slot></slot>
-        <router-link class="btn" :to="{ name: goNext }">Next</router-link>
+        <router-link class="nav-btn" :to="{ name: goNext }">
+            <SvgIcon name="next"></SvgIcon
+        ></router-link>
     </div>
 </template>
 
 <script>
+import SvgIcon from "./ui/SvgIcon.vue";
 import { mapGetters } from "vuex";
 export default {
+    components: {
+        SvgIcon,
+    },
     computed: {
         ...mapGetters("header", ["menu"]),
         getRoute() {
@@ -38,7 +46,8 @@ export default {
 .navigation {
     &-buttons {
         display: flex;
-        margin-top: 3rem;
+        justify-content: center;
+        margin-top: auto;
     }
 }
 </style>>

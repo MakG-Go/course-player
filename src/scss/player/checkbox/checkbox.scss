@@ -1,0 +1,128 @@
+.checkbox {
+    position: relative;
+    margin: 16px 0;
+    text-align: left;
+
+    &.checkbox-inline {
+        display: inline-block;
+    }
+
+    label {
+        cursor: pointer;
+        display: inline-block;
+
+        vertical-align: top;
+        clear: both;
+        padding-left: 30px;
+
+        @media screen and (max-width: 719px) {
+        }
+        &.checkbox-inline {
+            display: inline-block;
+            &_width {
+                width: calc(100% - 50px);
+            }
+        }
+
+        // &:not(:empty) {
+        //     padding-left: 20px;
+        // }
+
+        &.b-green {
+            color: #0b892f;
+        }
+        &.b-red {
+            color: #e43540;
+        }
+        &:before,
+        &:after {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 3px;
+        }
+
+        &:before {
+            width: 25px;
+            height: 25px;
+
+            border: 1px solid rgba($gray, 0.2);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        &.correct_sel:after {
+            border: 2px solid #0b892f !important;
+            border-top-style: none !important;
+            border-right-style: none !important;
+        }
+        &.correct_sel:before {
+            border-color: #0b892f !important;
+
+            background: transparent;
+        }
+
+        &.incorrect_sel:after {
+            border: 2px solid #e43540 !important;
+            border-top-style: none !important;
+            border-right-style: none !important;
+        }
+        &.incorrect_sel:before {
+            border-color: #e43540 !important;
+
+            background: transparent;
+        }
+    }
+
+    input[type="checkbox"] {
+        outline: 0;
+        visibility: hidden;
+        // width: 25px;
+        height: 35px;
+        margin: 0;
+        display: block;
+        float: left;
+        font-size: inherit;
+        animation: ripple 0.2s linear forwards;
+        // margin-right: 20px;
+        &:checked {
+            + label:before {
+                animation: heartBeat 1.2s linear forwards;
+            }
+
+            + label:after {
+                transform: translate(6px, 7px) rotate(-45deg) skewX(351deg);
+                width: 12px;
+                height: 8px;
+                border: 2px solid rgba($gray, 1);
+                border-top-style: none;
+                border-right-style: none;
+            }
+        }
+
+        &:disabled {
+            + label:before {
+                border-color: rgba($gray, 0.2);
+            }
+
+            &:checked {
+                + label:before {
+                }
+            }
+        }
+    }
+}
+@keyframes ripple {
+    0% {
+        box-shadow: 0px 0px 0px 1px rgba($black, 0);
+    }
+
+    50% {
+        box-shadow: 0px 0px 0px 15px rgba($black, 0.1);
+    }
+
+    100% {
+        box-shadow: 0px 0px 0px 15px rgba($black, 0);
+    }
+}

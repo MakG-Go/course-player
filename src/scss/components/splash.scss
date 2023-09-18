@@ -1,0 +1,43 @@
+.splash {
+    background-color: black;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    clip-path: circle(100%);
+    transition-property: clip-path, height;
+    transition-duration: 0.8s;
+    transition-timing-function: ease-in-out;
+    z-index: 100;
+    position: absolute;
+
+    &-container {
+        height: 75vh;
+    }
+
+    &-btn {
+        display: flex;
+        align-items: center;
+        margin: 0 auto;
+        padding: 1.363rem 4.545rem;
+        max-width: max-content;
+
+        span {
+            text-transform: uppercase;
+            font-weight: 600;
+            font-family: $Bold;
+        }
+    }
+    &-title {
+        font-size: 3.1818em;
+    }
+
+    img {
+        width: 100%;
+        max-width: 500px;
+    }
+
+    &.disable {
+        clip-path: circle(0px at 50% 50%);
+    }
+}

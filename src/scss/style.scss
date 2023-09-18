@@ -1,10 +1,13 @@
+@import "@/scss/mixins/_mixins";
 @import "@/scss/root/resetcss";
+@import "@/scss/root/fonts";
 @import "@/scss/root/vars";
 @import "@/scss/root/grid";
+@import "@/scss/root/margin";
 @import "@/scss/root/root";
 
-@import "@/scss/components/buttons";
-@import "@/scss/components/menu";
-@import "@/scss/components/scrollbar";
-@import "@/scss/components/webGl";
-@import "@/scss/components/keybord-practice-component";
+@import "@/scss/plugins/plugins";
+@import "@/scss/tipografi/tipografi";
+@import "@/scss/ui/ui";
+@import "@/scss/player/player";
+@import "@/scss/components/components";

@@ -62,6 +62,7 @@ export default {
 
 
     },
+
     mutations: {
 
         /** Добавляем просмотренные страницы */
@@ -112,7 +113,15 @@ export default {
 
         setScore(state, objective) {
 
-            state.courceData.objectivs.push({ id: objective.id, score: objective.score });
+            if (!state.courceData.objectivs.some(item => item.id === objective.id)) {
+                state.courceData.objectivs.push({ id: objective.id, score: objective.score });
+            }
+            else {
+                state.courceData.objectivs.forEach(el => {
+                    el.id === objective.id && objective.score > el.score ? el.score = objective.score : ''
+                });
+            }
+
             state.API.setScore(state.courceData.objectivs);
             state.API.saveData({ "courceData": state.courceData });
 
@@ -172,10 +181,10 @@ export default {
 
         setScore({ commit, getters }, objective) {
 
-            if (!getters.checkObjectivs(objective)) {
 
-                commit('setScore', objective)
-            }
+
+            commit('setScore', objective)
+
         },
 
         setVariations({ commit }, oGlobal) {

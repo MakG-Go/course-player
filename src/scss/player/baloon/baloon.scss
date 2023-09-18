@@ -1,0 +1,180 @@
+.baloon {
+    position: relative;
+    &_min {
+        padding: 20px 30px;
+    }
+    &_little {
+        padding: 30px;
+        @media #{$breakpoint-xs-only} {
+            padding: 20px;
+        }
+    }
+    &_small {
+        padding: 40px 30px;
+    }
+    &_medium {
+        padding: 40px 60px;
+        @media #{$breakpoint-xs-only} {
+            padding: 20px;
+        }
+    }
+    &_middle {
+        padding: 40px 80px;
+        @media #{$breakpoint-xs-only} {
+            padding: 20px;
+        }
+    }
+    &_large {
+        padding: 100px 160px;
+        @media #{$breakpoint-xs-only} {
+            padding: 20px;
+        }
+    }
+    &_center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    &_border {
+        &-gray {
+            border: 2px solid #adaeac;
+        }
+        &-red {
+            border: 2px solid #c10230;
+        }
+        &-green {
+            border: 2px solid #76bc21;
+        }
+
+        &_radius {
+            &-40 {
+                border-radius: 40px;
+            }
+            &-50 {
+                border-radius: 50px;
+            }
+            &-20 {
+                border-radius: 20px;
+            }
+
+            &-40,
+            &-50 {
+                @media #{$breakpoint-xs-only} {
+                    border-radius: 20px;
+                }
+            }
+        }
+    }
+    &_color {
+        &-white {
+            background-color: white;
+        }
+        &-black {
+            background-color: black;
+        }
+        &-gray {
+            background-color: #0f0f0f;
+            &-light {
+                background-color: #393e42;
+            }
+        }
+        &-red {
+            background-color: #c10230;
+        }
+        &-green {
+            background-color: #76bc21;
+        }
+        &-lightGreen {
+            background-color: #c3e29e;
+        }
+        &-pink {
+            background-color: #fceaeb;
+        }
+        &-violet {
+            background-color: #e0ddf9;
+        }
+        &-crema {
+            background-color: #fff2d1;
+        }
+        &_gradient {
+            &-red {
+                background: radial-gradient(
+                    114.03% 100% at 47.98% 0%,
+                    rgba(50, 1, 1, 0.5) 0%,
+                    rgba(22, 6, 6, 0.235) 100%
+                );
+            }
+        }
+    }
+    &_image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        object-fit: cover;
+    }
+    &_robot {
+        border-radius: 500px;
+        overflow: hidden;
+        padding: 20px 0 0 0;
+        @media #{$breakpoint-xs-only} {
+            border-radius: 40px;
+            padding: 30px 30px 0 30px;
+        }
+    }
+
+    &_shadow {
+        &-standart {
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.25);
+        }
+    }
+    &_horisontal {
+        display: flex;
+        flex-wrap: no-wrap;
+        overflow-x: hidden;
+        &__section {
+            // height: calc(100vh - 300px);
+            width: 100%;
+            padding: 20px 40px 20px 20px;
+        }
+    }
+}
+
+.robot {
+    &-dialog {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        @media #{$breakpoint-xs-only} {
+            flex-direction: column;
+        }
+        &_img {
+            @media #{$breakpoint-xs-only} {
+                order: 1;
+                margin-right: auto;
+            }
+        }
+        &_baloon {
+            margin-bottom: auto;
+            flex-basis: 41.6666%;
+            max-width: 41.6666%;
+            padding: 40px 60px;
+            border-radius: 40px 40px 40px 0px;
+            background-color: white;
+            box-shadow: 0px 13px 22px rgba(39, 6, 6, 0.05);
+            @media #{$breakpoint-xs-only} {
+                border-radius: 20px 20px 20px 0px;
+                padding: 20px;
+                margin-bottom: 0;
+                margin-left: auto;
+                flex-basis: 90%;
+                max-width: 90%;
+            }
+        }
+    }
+    &__talck {
+        width: 18.181em !important;
+        height: 19.09em !important;
+    }
+}

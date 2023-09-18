@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import 'animate.css/animate.min.css'
 import 'vue3-perfect-scrollbar/dist/vue3-perfect-scrollbar.css'
+import Vue3Lottie from 'vue3-lottie'
 import '@/scss/style.scss'
 import 'virtual:svg-icons-register'
 import router from "&/router/router.js"
@@ -19,17 +20,9 @@ createApp(App)
         }
     })
     .use(gsapPlugin)
+    .use(Vue3Lottie)
     .use(router)
     .use(store)
-
     .mount('#app')
 
 
-// window.onbeforeunload = function (e) {
-//     store.dispatch('status/getExit');
-
-//     var message = "Are you sure you want to leave this page?";
-//     e.returnValue = message;
-//     return message;
-
-// };

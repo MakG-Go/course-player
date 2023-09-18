@@ -1,0 +1,43 @@
+@mixin show($breakpoint, $row) {
+    @if $breakpoint == "all" {
+        @if $row == "true" or $row == "row" {
+            display: flex;
+        } @else {
+            display: block;
+        }
+    } @else if $breakpoint == "xs" {
+        @media #{$breakpoint-xs-only} {
+            @if $row == "true" or $row == "row" {
+                display: flex;
+            } @else {
+                display: block;
+            }
+        }
+    } @else if $breakpoint == "lg" {
+        @media #{$breakpoint-lg-only} {
+            @if $row == "true" or $row == "row" {
+                display: flex;
+            } @else {
+                display: block;
+            }
+        }
+    } @else {
+        @warn "show mixin arg must be one of the existing breakpoints or ranges (#{$breakpoint-all-prefixes})";
+    }
+}
+
+@mixin hide($breakpoint) {
+    @if $breakpoint == "all" {
+        display: none;
+    } @else if $breakpoint == "xs" {
+        @media #{$breakpoint-xs-only} {
+            display: none;
+        }
+    } @else if $breakpoint == "lg" {
+        @media #{$breakpoint-lg-only} {
+            display: none;
+        }
+    } @else {
+        @warn "hide mixin arg must be one of the existing breakpoints or ranges (#{$breakpoint-all-prefixes})";
+    }
+}

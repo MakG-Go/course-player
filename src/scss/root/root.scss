@@ -1,14 +1,41 @@
 body {
-    font-family: $Regular, sans-serif;
-    font-size: 16px;
+    font-family: $Regular;
+    font-size: 22px;
+    background-color: #ececee;
 
     @media screen and (max-width: 719px) {
-        font-size: 12px;
+        font-size: 18px;
+    }
+}
+
+hr {
+    border: none;
+    border-top: solid 1px;
+    margin: 0;
+    &.hr {
+        border-top-color: rgb(209, 209, 209);
+        margin-bottom: 1rem;
+        &-red {
+            border: none;
+            width: 100%;
+            height: 3px;
+            background-color: $red;
+        }
+    }
+}
+
+.wrapper {
+    padding: 2.5em 0;
+    transition-property: background-color;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-in-out;
+    &-black {
+        background-color: $black;
     }
 }
 
 .container,
-.header__container {
+.container-full {
     margin: 0 auto;
     padding: 0 1rem;
     @media screen and (min-width: 576px) {
@@ -21,20 +48,68 @@ body {
     @media screen and (min-width: 992px) {
         max-width: 960px;
     }
-    @media screen and (min-width: 1200px) {
-        max-width: 1140px;
-    }
-    @media screen and (min-width: 1400px) {
-        max-width: calc(1400px - 80px);
+}
+
+.container-full {
+    min-height: calc(100vh - 6em);
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    &-full {
+        width: 100%;
+        @media screen and (min-width: 1400px) {
+            max-width: 1280px;
+        }
     }
 }
 
-hr {
-    border: none;
-    border-top: solid 1px;
-    margin: 0;
-    &.hr {
-        border-top-color: rgb(209, 209, 209);
-        margin-bottom: 1rem;
+.h {
+    &-100 {
+        height: 100%;
+    }
+}
+.w {
+    &-100 {
+        width: 100%;
+    }
+}
+
+.mb {
+    &-red {
+        margin-bottom: 4.545em !important;
+    }
+    &-orange {
+        margin-bottom: 2.272em !important;
+    }
+    &-blue {
+        margin-bottom: 1.818em !important;
+    }
+    &-green {
+        margin-bottom: 1.136em !important;
+    }
+    &-pink {
+        margin-bottom: 0.454em !important;
+    }
+}
+
+.relative {
+    position: relative;
+}
+
+.absolute {
+    position: absolute;
+}
+
+@media #{$breakpoint-lg-only} {
+    .hide-lg {
+        display: none !important;
+    }
+}
+
+@media #{$breakpoint-xs-only} {
+    .hide-xs {
+        display: none !important;
     }
 }

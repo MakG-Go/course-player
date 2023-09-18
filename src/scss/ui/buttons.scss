@@ -1,0 +1,77 @@
+.btn {
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    outline: 0;
+    border: none;
+    vertical-align: middle;
+    background-color: $red;
+    border-radius: 40px;
+    color: white;
+    font-family: $Regular;
+    font-style: normal;
+    padding: 0.68rem 1.363rem;
+    text-transform: none;
+    text-shadow: none;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    transition-property: color, background-color, border-color, box-shadow, transform;
+    transition-duration: 0.25s;
+    transition-timing-function: ease;
+
+    @media screen and (max-width: 719px) {
+        -webkit-user-select: none;
+        -webkit-touch-callout: none;
+    }
+    &:not(:last-child) {
+        margin-right: 0.5rem;
+    }
+    &:hover {
+        background-color: rgba($red, 0.6);
+    }
+    &:focus {
+        outline: unset;
+    }
+
+    &__counter {
+        margin-right: 0.5rem;
+    }
+}
+
+.nav-btn {
+    display: flex;
+    padding: 0.909em 2.272em;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3.636em;
+    border: 2px solid #393e42;
+    transition-property: border-color;
+    transition-duration: 0.25s;
+    transition-timing-function: ease;
+    &:first-child {
+        margin-right: 0.681em;
+    }
+
+    svg {
+        width: 1.636em;
+        height: 1.363em;
+        use {
+            transition-property: fill;
+            transition-duration: 0.25s;
+            transition-timing-function: ease;
+            fill: #393e42;
+        }
+    }
+    &:focus {
+        outline: unset;
+    }
+    &:hover {
+        border-color: rgba(#393e42, 0.6);
+        svg {
+            use {
+                fill: rgba(#393e42, 0.6);
+            }
+        }
+    }
+}

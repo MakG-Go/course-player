@@ -3,24 +3,26 @@
         <div class="header" :class="getHeaderClass">
             <div class="header__container">
                 <button
-                    @click="toggleMenu($route.name)"
-                    class="header__button header__button_burger"
-                    :class="getBurgerClass"
+                    v-for="(navBtn, ndx) in navButtons"
+                    :key="navBtn.name"
+                    class="header-btn"
+                    @click="showNavfromHeader(ndx)"
                 >
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                    <SvgIcon
+                        :name="navBtn.icon"
+                        class="header_icon header_icon-menu"
+                    ></SvgIcon>
                 </button>
-                <p style="position: relative; z-index: 99">
-                    {{ objectivs }}
-                    {{ visit.length }}
-                </p>
+
+                <SvgIcon name="show-menu" class="header_icon-show"></SvgIcon>
             </div>
         </div>
 
         <div class="menu__nav" :class="getMenuClass">
             <div class="menu__contant" :class="gatMenuContant">
+                <button class="menu__close" @click="toggleMenu">
+                    <SvgIcon name="close"></SvgIcon>
+                </button>
                 <ul class="menu__contant_buttons">
                     <li
                         class="menu__nav-btn"
@@ -54,37 +56,53 @@
 <script>
 import Menu from "./Menu.vue";
 import Glossary from "./Glossary.vue";
-import { defineAsyncComponent, markRaw, shallowRef } from "vue";
+import Download from "./Download.vue";
+import SvgIcon from "./ui/SvgIcon.vue";
+
+import { shallowRef } from "vue";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
-    components: { Menu, Glossary },
+    components: { Menu, Glossary, Download, SvgIcon },
     data() {
         return {
             navButtons: [
                 {
+                    icon: "menu",
                     name: "Навигация",
                     active: true,
-                    //   component: markRaw(defineAsyncComponent(() => import("./Menu.vue"))),
                     component: shallowRef(Menu),
                 },
                 {
+                    icon: "gloss",
                     name: "Глоссарий",
                     active: false,
-                    //   component: markRaw(
-                    //     defineAsyncComponent(() => import("./Glossary.vue"))
-                    //   ),
                     component: shallowRef(Glossary),
                 },
+                {
+                    icon: "load",
+                    name: "Материалы для скачивания",
+                    active: false,
+                    component: shallowRef(Download),
+                },
             ],
-            //   activeComponent: markRaw(
-            //     defineAsyncComponent(() => import("./Menu.vue"))
-            //   ),
+
             activeComponent: shallowRef(Menu),
         };
     },
     methods: {
         ...mapActions("header", ["toggleMenu"]),
+
+        showNavfromHeader(num) {
+            this.toggleMenu();
+
+            this.navButtons.forEach((item, ndx) => {
+                num === ndx ? (item.active = true) : (item.active = false);
+            });
+            this.addMenuButtonClass(num);
+            this.activeComponent = this.navButtons[num].component;
+        },
+
         showNav(cmp, key) {
             this.navButtons.forEach((item, ndx) => {
                 key === ndx ? (item.active = true) : (item.active = false);
@@ -93,17 +111,18 @@ export default {
         },
     },
     watch: {
-        menuState() {
-            !this.menuState
-                ? (this.activeComponent = shallowRef(Menu))
-                : this.navButtons.forEach((item, ndx) => {
-                      ndx === 0 ? (item.active = true) : (item.active = false);
-                  });
-        },
+        // menuState() {
+        //     !this.menuState
+        //         ? (this.activeComponent = shallowRef(Menu))
+        //         : this.navButtons.forEach((item, ndx) => {
+        //               ndx === 0 ? (item.active = true) : (item.active = false);
+        //           });
+        // },
     },
     computed: {
         ...mapGetters("status", ["visitTotal", "visit", "objectivs"]),
         ...mapGetters("header", ["menuState"]),
+
         getMenuClass() {
             return {
                 "menu__nav-open": this.menuState,

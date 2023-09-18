@@ -1,39 +1,27 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { VitePluginFonts } from 'vite-plugin-fonts';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import path from "path"
 
 // https://vitejs.dev/config/
 export default defineConfig({
   base: "./",
-  root: './',
-  publicDir: './src/Course_branch/Стиралки/assets', /** Путь до статичесского контента конкретного курса img, video, и.т.д ...*/
+  root: "./",
+  publicDir: './src/Course_branch/Мвидео/public', /** Путь до статичесского контента конкретного курса img, video, и.т.д ...*/
+  server: {
+    port: 3000
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+      '&': path.resolve(__dirname, './src/Course_branch/Мвидео'), /** Путь до корня конкретного курса*/
+    }
+  },
   plugins: [
     vue(),
-    VitePluginFonts({
-      custom: {
-        families: [{
-          name: 'Nunito Sans',
-          local: 'Nunito-Regular',
-          src: '/fonts/NunitoSans_Regular.ttf'
-        },
-        {
-          name: 'Nunito Sans',
-          local: 'Nunito-Bold',
-          src: '/fonts/NunitoSans_Bold.ttf'
-        },
-        {
-          name: 'Nunito Sans',
-          local: 'Nunito-SemiBold',
-          src: '/fonts/NunitoSans_SemiBold.ttf'
-        },
-        ],
-      },
-    }),
     createSvgIconsPlugin({
 
-      iconDirs: [path.resolve(__dirname, './src/Course_branch/Стиралки/assets/icons')], /** Путь до svg файлов для создания svg спрайта */
+      iconDirs: [path.resolve(__dirname, './src/Course_branch/Мвидео/public/icons')], /** Путь до svg файлов для создания svg спрайта */
 
       symbolId: 'icon-[dir]-[name]',
 
@@ -42,17 +30,8 @@ export default defineConfig({
       customDomId: '__svg__icons__dom__',
     }),
   ],
-  server: {
-    port: 3000
-  },
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-      '&': path.resolve(__dirname, './src/Course_branch/Стиралки') /** Путь до корня конкретного курса*/
-    }
-  },
   build: {
-    assetsDir: '',
+    assetsDir: 'assets',
     outDir: "./packageFolder/scormcontent/",
     emptyOutDir: true,
     sourcemap: false,
@@ -64,10 +43,11 @@ export default defineConfig({
         assetFileNames: ({ name, extname }) => {
 
           if (/\.css$/.test(name ?? '')) {
-            return 'style[extname]';
+            return 'assets/style[extname]';
           }
           return 'assets/[name][extname]';
         },
+        // assetFileNames: 'assets/[name][extname]'
       },
     },
   },

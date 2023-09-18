@@ -1,0 +1,15 @@
+@media #{$breakpoint-lg-only} {
+    // Margins
+    @include list-loop(".mt-", "margin-top");
+    @include list-loop(".mr-", "margin-right");
+    @include list-loop(".mb-", "margin-bottom");
+    @include list-loop(".ml-", "margin-left");
+}
+
+@media #{$breakpoint-xs-only} {
+    // Margins
+    @include list-loop(".mt-xs-", "margin-top");
+    @include list-loop(".mr-xs-", "margin-right");
+    @include list-loop(".mb-xs-", "margin-bottom");
+    @include list-loop(".ml-xs-", "margin-left");
+}

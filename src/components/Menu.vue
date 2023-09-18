@@ -12,8 +12,11 @@
                     <router-link
                         @click="toggleMenu"
                         :to="{ name: page.pageRoute }"
-                        ><h4>{{ page.name }}</h4></router-link
                     >
+                        <p class="menu__nav-title_item">
+                            <span>{{ page.name }}</span>
+                        </p>
+                    </router-link>
                     <div v-if="page.scrollPage">
                         <ul class="menu__nav-submenu">
                             <li
@@ -32,8 +35,8 @@
                                         name: page.pageRoute,
                                         hash: subScroll.hash,
                                     }"
-                                    ><h3>{{ subScroll.name }}</h3></router-link
-                                >
+                                    ><span>{{ subScroll.name }}</span>
+                                </router-link>
                             </li>
                         </ul>
                     </div>
@@ -56,10 +59,13 @@ export default {
         getLinksAnimate() {
             return (id) => {
                 if (this.menuState) {
+                    let p1 = new Promise(function (resolve, reject) {
+                        resolve(0.15 + Number(id * 0.1));
+                    }).then((result) => result);
                     return {
                         opacity: "1",
-                        transform: "translateY(0)",
-                        "transition-delay": 0.15 + Number(id * 0.1) + "s",
+                        // transform: "translateY(0)",
+                        // "transition-delay": 0.15 + Number(id * 0.1) + "s",
                     };
                 }
             };
@@ -86,10 +92,10 @@ export default {
 
 <style lang="scss" scoped>
 .menu {
-    &__scroll {
-        height: calc(50vh - 5px);
-        padding-right: 3rem;
-    }
+    // &__scroll {
+    //     height: calc(50vh - 5px);
+    //     padding-right: 3rem;
+    // }
 }
-</style>>
+</style>
 
