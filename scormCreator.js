@@ -270,7 +270,7 @@ function addResourcesToManifest(manifestObj) {
                     if (['.xml', '.xsd', '.dtd', '.xsx'].indexOf(ext) === -1) {
 
                         const relativeFilePath = filePath.replace(config.patch + '\\', '');
-                        const correctFilePath = '/' + relativeFilePath.replace(/[\\]/g, '/');
+                        const correctFilePath = relativeFilePath.replace(/[\\]/g, '/');
 
                         const fileObj = {
                             $: {

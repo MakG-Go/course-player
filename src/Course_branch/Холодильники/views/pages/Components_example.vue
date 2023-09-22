@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import { keybordData_1 } from "&/testingData";
-import KeybordPracticeVue from "@/components/KeybordPractice.vue";
+import { keybordData_1 } from "&/courseData/testingData";
+import KeybordPracticeVue from "@/components/practice/KeybordPractice.vue";
 export default {
     components: { KeybordPracticeVue },
     computed: {

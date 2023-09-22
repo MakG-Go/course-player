@@ -18,8 +18,12 @@
 
 
 ## Внешние ресурсы
-* [Правила грамотной вёрстки слайдов](https://labmedia.sharepoint.com/sites/msteams_9ba699/Shared%20Documents/%D0%A0%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%87%D0%B8%D0%BA%D0%B8%20%D1%8D%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%BD%D0%BD%D1%8B%D1%85%20%D0%BA%D1%83%D1%80%D1%81%D0%BE%D0%B2/%D0%9F%D1%80%D0%BE%20%D0%B4%D0%B8%D1%81%D1%82%D0%B0%D0%BD%D1%86%D0%B8%D0%BE%D0%BD%D0%BD%D0%BE%D0%B5%20%D0%BE%D0%B1%D1%83%D1%87%D0%B5%D0%BD%D0%B8%D0%B5/%D0%9F%D1%80%D0%BE%20%D0%B4%D0%B8%D1%81%D1%82%D0%B0%D0%BD%D1%86%D0%B8%D0%BE%D0%BD%D0%BD%D0%BE%D0%B5%20%D0%BE%D0%B1%D1%83%D1%87%D0%B5%D0%BD%D0%B8%D0%B5.one#%D0%9F%D1%80%D0%B0%D0%B2%D0%B8%D0%BB%D0%B0%20%D0%B3%D1%80%D0%B0%D0%BC%D0%BE%D1%82%D0%BD%D0%BE%D0%B9%20%D0%B2%D1%91%D1%80%D1%81%D1%82%D0%BA%D0%B8%20%D1%81%D0%BB%D0%B0%D0%B9%D0%B4%D0%BE%D0%B2&section-id=a1f33730-cf9b-40d0-8886-2fce1ab18f25&page-id=94d4a9ca-6e24-44f0-9fc0-d7b67579a837&end)
 * [Инструкция по работе в GitLab](https://portal.labmedia.su/Standards/%D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%86%D0%B8%D1%8F_%D0%A0%D0%B0%D0%B1%D0%BE%D1%82%D0%B0_%D0%B2_GitLab.docx)
+
+* [Правила написания кода](https://github.com/Gemorroj/noads-advanced/wiki/Правила-написания-JavaScript-кода)
+
+* [Правила грамотной вёрстки слайдов](https://labmedia.sharepoint.com/sites/msteams_9ba699/Shared%20Documents/%D0%A0%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%87%D0%B8%D0%BA%D0%B8%20%D1%8D%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%BD%D0%BD%D1%8B%D1%85%20%D0%BA%D1%83%D1%80%D1%81%D0%BE%D0%B2/%D0%9F%D1%80%D0%BE%20%D0%B4%D0%B8%D1%81%D1%82%D0%B0%D0%BD%D1%86%D0%B8%D0%BE%D0%BD%D0%BD%D0%BE%D0%B5%20%D0%BE%D0%B1%D1%83%D1%87%D0%B5%D0%BD%D0%B8%D0%B5/%D0%9F%D1%80%D0%BE%20%D0%B4%D0%B8%D1%81%D1%82%D0%B0%D0%BD%D1%86%D0%B8%D0%BE%D0%BD%D0%BD%D0%BE%D0%B5%20%D0%BE%D0%B1%D1%83%D1%87%D0%B5%D0%BD%D0%B8%D0%B5.one#%D0%9F%D1%80%D0%B0%D0%B2%D0%B8%D0%BB%D0%B0%20%D0%B3%D1%80%D0%B0%D0%BC%D0%BE%D1%82%D0%BD%D0%BE%D0%B9%20%D0%B2%D1%91%D1%80%D1%81%D1%82%D0%BA%D0%B8%20%D1%81%D0%BB%D0%B0%D0%B9%D0%B4%D0%BE%D0%B2&section-id=a1f33730-cf9b-40d0-8886-2fce1ab18f25&page-id=94d4a9ca-6e24-44f0-9fc0-d7b67579a837&end)
+
 
 ## Введение
 #### Работа с новым проектом
@@ -95,7 +99,7 @@ project/
 ## Глобальные переменные
 
 В файле `config.js` установить параметры в ключах объекта
-- `standard<String>` - Версия SCORM, пердать параметры  `SCORM12` || `SCORM2004`
+- `standard<String>` - Версия SCORM, пердать параметр  `SCORM12` || `SCORM2004`
 - `name<String>` - Название курса
 - `id<String>` - id курса
 - `patch<String>` - директория файлов курся для копилирования SCORM !!<< НЕ МЕНЯТЬ >>!!

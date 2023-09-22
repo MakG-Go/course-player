@@ -1,8 +1,8 @@
 <template>
     <div class="navigation-buttons">
-        <router-link class="btn" :to="{ name: goPrev }">Prev</router-link>
+        <router-link class="btn" :to="{ name: goPrev }">Prev Slide</router-link>
         <slot></slot>
-        <router-link class="btn" :to="{ name: goNext }">Next</router-link>
+        <router-link class="btn" :to="{ name: goNext }">Next Slide</router-link>
     </div>
 </template>
 
@@ -39,6 +39,7 @@ export default {
     &-buttons {
         display: flex;
         margin-top: 3rem;
+        z-index: 1;
     }
 }
-</style>>
+</style>

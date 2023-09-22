@@ -91,5 +91,5 @@ export default {
         padding-right: 3rem;
     }
 }
-</style>>
+</style>
 

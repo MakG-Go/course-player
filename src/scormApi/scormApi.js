@@ -92,62 +92,72 @@ class SCORM2004 {
 
 	};
 
-	setLocation() {
+	setLocation(location) {
 
 		this.disableConsoleLog()
 
-		const currentPage = window.location.href;
+		const currentLocation = window.location.href;
 		const locationResult = this.SCORM.get("cmi.location");
 
 		if (locationResult === "") {
 
-			this.SCORM.set("cmi.location", currentPage);
+			this.SCORM.set("cmi.location", currentLocation);
 
 
 		}
-		else if (this.SCORM.get("cmi.location") !== currentPage) {
+		else if (this.SCORM.get("cmi.location") !== currentLocation) {
 
-			this.SCORM.set("cmi.location", currentPage);
+			this.SCORM.set("cmi.location", currentLocation);
 
 		}
 		else {
 			console.log("Location already exists: " + locationResult);
 		}
 
-		ScormMockApi.SetValue("cmi.location", this.SCORM.get("cmi.location"))
+		// ScormMockApi.SetValue("cmi.location", this.SCORM.get("cmi.location"))
 
-		console.log('setLocation');
+		const currentPage = location
+
+		ScormMockApi.SetValue("cmi.location", location)
+
+		console.log('setLocation', location);
 
 		this.restoreConsoleLog();
+
+		return currentPage
+
+
 
 
 	};
 
 	getLastPage() {
 
-		this.disableConsoleLog()
+		// this.disableConsoleLog()
 
-		let path
-		// const route = ScormMockApi.GetValue("cmi.location")
-		const route = this.SCORM.get("cmi.location")
-		const lastHtml = route.split('/').slice(-1).join()
+		// let path
+		// // const route = ScormMockApi.GetValue("cmi.location")
+		// const route = this.SCORM.get("cmi.location")
+		// const lastHtml = route.split('/').slice(-1).join()
 
-		if (route === null || route === undefined || route == "null" || lastHtml === "index.html" || Number.isNaN(lastHtml)) {
-			console.log("route empty")
+		// if (route === null || route === undefined || route == "null" || lastHtml === "index.html" || Number.isNaN(lastHtml)) {
+		// 	console.log("route empty")
 
-			path = "/"
+		// 	path = "/"
 
-		}
-		else {
-			// return "/" + ScormMockApi.GetValue("cmi.location").split('/').slice(-1).join()
+		// }
+		// else {
+		// 	// return "/" + ScormMockApi.GetValue("cmi.location").split('/').slice(-1).join()
 
-			path = "/" + lastHtml
+		// 	path = "/" + lastHtml
 
-		}
+		// }
 
-		this.restoreConsoleLog();
+		// this.restoreConsoleLog();
 
-		return path
+		// return path
+
+		return false
 
 
 	}

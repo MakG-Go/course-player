@@ -1,6 +1,6 @@
 
 
-import { createRouter, createWebHistory } from "vue-router"
+import { createRouter, createWebHashHistory } from "vue-router"
 import tutorial from '&/views/Tutorial.vue'
 import final from '&/views/Final.vue'
 import components from '&/views/pages/Components_example.vue'
@@ -8,6 +8,7 @@ import Start from '&/views/pages/Start.vue'
 import page_1 from '&/views/pages/Page_1.vue'
 import page_2 from '&/views/pages/Page_2.vue'
 import page_3 from '&/views/pages/Page_3.vue'
+import webGl from '&/views/pages/WebGlPractice.vue'
 import { gsap } from 'gsap';
 
 
@@ -20,13 +21,14 @@ const routes = [
     { path: '/page_1', name: 'page_1', component: page_1, props: true },
     { path: '/page_2', name: 'page_2', component: page_2, props: true },
     { path: '/page_3', name: 'page_3', component: page_3, props: true },
+    { path: '/webGl', name: 'webGl', component: webGl, props: true },
 
 ]
 
 export default createRouter({
     routes,
     base: '/',
-    history: createWebHistory(),
+    history: createWebHashHistory(),
 
     /** Для скролла до элемента из меню */
 

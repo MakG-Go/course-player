@@ -11,6 +11,7 @@ export default {
     state: {
 
         courceData: {
+
             pages: [],
             objectivs: [
             ],
@@ -60,8 +61,8 @@ export default {
 
         checkVariations: (state) => (oGlobal) => state.courceData.variations.some(item => item.name === oGlobal.name)
 
-
     },
+
     mutations: {
 
         /** Добавляем просмотренные страницы */

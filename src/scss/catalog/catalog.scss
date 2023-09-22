@@ -1,0 +1,91 @@
+.catalog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    outline: none;
+    width: 100vw;
+    height: 100vh;
+    clip-path: circle(100%);
+    transition-property: clip-path, height, left, top;
+    transition-duration: 0.8s;
+    transition-timing-function: ease-in-out;
+    z-index: 0;
+    opacity: 0;
+    &.active {
+        left: -20vw;
+        @media screen and (max-width: 768px) {
+            top: -15vh;
+            left: 0;
+            // canvas {
+            //     margin: 0 auto;
+            //     width: 75vw !important;
+            //     height: 75vh !important;
+            // }
+        }
+    }
+
+    &__btn {
+        &_prev {
+            position: absolute;
+            left: 0;
+        }
+        &_next {
+            position: absolute;
+            right: 0;
+        }
+        &_container {
+            justify-content: space-between;
+            margin: 0 2em;
+            z-index: 0;
+            display: flex;
+            position: absolute;
+            bottom: 50%;
+            left: 0;
+            right: 0;
+        }
+    }
+
+    &__wrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        overflow: hidden;
+        width: 100vw;
+        height: 100vh;
+        background: rgb(3, 3, 17);
+        background: radial-gradient(circle, rgba(3, 3, 17, 1) 0%, rgba(49, 53, 130, 1) 100%);
+    }
+}
+canvas {
+    transition-property: width, height;
+    transition-duration: 0.8s;
+    transition-timing-function: ease-in-out;
+}
+
+.preloader {
+    transform: scale(0);
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    z-index: 99;
+    top: calc(50% - 80px);
+    overflow: hidden;
+    transition-property: transform;
+    transition-duration: 0.1s;
+    transition-timing-function: ease-in-out;
+    &.active {
+        transform: scale(1);
+    }
+    &_percent {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        width: 100%;
+        display: flex;
+        color: white;
+        justify-content: center;
+        line-height: 0;
+    }
+}

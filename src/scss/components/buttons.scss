@@ -37,4 +37,9 @@
     &__counter {
         margin-right: 0.5rem;
     }
+    &:disabled {
+        background-color: #0083c48e;
+        cursor: default;
+        pointer-events: none;
+    }
 }

@@ -7,8 +7,10 @@ import path from "path"
 // https://vitejs.dev/config/
 export default defineConfig({
   base: "./",
+  // base: '/webtutor/aaa-test-vue-2004/scormcontent/',
   root: './',
-  publicDir: './src/Course_branch/Стиралки/assets', /** Путь до статичесского контента конкретного курса img, video, и.т.д ...*/
+  assetsInclude: ['**/*.glb'],
+  publicDir: path.resolve(__dirname, './src/Course_branch/Холодильники/assets'), /** Путь до статичесского контента конкретного курса img, video, и.т.д ...*/
   plugins: [
     vue(),
     VitePluginFonts({
@@ -33,7 +35,7 @@ export default defineConfig({
     }),
     createSvgIconsPlugin({
 
-      iconDirs: [path.resolve(__dirname, './src/Course_branch/Стиралки/assets/icons')], /** Путь до svg файлов для создания svg спрайта */
+      iconDirs: [path.resolve(__dirname, './src/Course_branch/Холодильники/assets/icons')], /** Путь до svg файлов для создания svg спрайта */
 
       symbolId: 'icon-[dir]-[name]',
 
@@ -48,7 +50,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
-      '&': path.resolve(__dirname, './src/Course_branch/Стиралки') /** Путь до корня конкретного курса*/
+      '&': path.resolve(__dirname, './src/Course_branch/Холодильники') /** Путь до корня конкретного курса*/
     }
   },
   build: {
