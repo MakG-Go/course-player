@@ -35,7 +35,7 @@ export default defineConfig({
     outDir: "./packageFolder/scormcontent/",
     emptyOutDir: true,
     sourcemap: false,
-    minify: true,
+    minify: false,
     rollupOptions: {
       output: {
         entryFileNames: "[name].js",

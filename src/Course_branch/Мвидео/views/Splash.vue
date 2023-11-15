@@ -4,24 +4,24 @@
             <div class="row splash-container h-100">
                 <div class="col-lg-6 col-xs-12">
                     <div class="flex flex__col h-100">
-                        <SvgIcon name="logo" w="210"></SvgIcon>
+                        <!-- <SvgIcon name="logo" w="210"></SvgIcon> -->
                         <div class="bottom">
                             <p class="text-red text-uppercase">
-                                Электронный курс
+                                <!-- Электронный курс -->
                             </p>
                             <h1 class="text-white text-uppercase splash-title">
-                                Смарт-часы
+                                Демонстрация механник
                             </h1>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6 col-xs-12">
                     <div class="flex flex__col jf-end h-100">
-                        <img
+                        <!-- <img
                             class="mb-green center"
                             src="/images/splash.png"
                             alt=""
-                        />
+                        /> -->
                         <router-link
                             :to="{ name: 'tutorial-page' }"
                             @click="getStart"

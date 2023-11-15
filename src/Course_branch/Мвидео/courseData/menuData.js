@@ -6,17 +6,7 @@ export function courseMenu() {
             { pageRoute: "tutorial-page", name: "Tutorial" },
             /** Обычный роут */
             { pageRoute: "page_1", name: "Page 1" },
-            /** Роут с вложениями */
-            {
-                pageRoute: "page_2", name: "Page 2", scrollPage: [
-                    { pageRoute: "/page_2", hash: "#menu-Part_1", name: "Part 1" },
-                    { pageRoute: "/page_2", hash: "#menu-Part_2", name: "Part 2" }
-                ]
-            },
-            { pageRoute: "page_3", name: "Page 3" },
-            { pageRoute: "page_4", name: "Page 4" },
-            { pageRoute: "components_example", name: "Components example" },
-            { pageRoute: "final", name: "Final" },
+            { pageRoute: "page_2", name: "Page 2" },
         ],
     }
 }

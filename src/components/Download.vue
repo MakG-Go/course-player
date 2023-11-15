@@ -28,7 +28,6 @@ export default {
     },
     methods: {
         downloadMaterial: function (e, material) {
-            console.log(material);
             window.open(material, "newwindow", "width=1000,height=700");
         },
     },

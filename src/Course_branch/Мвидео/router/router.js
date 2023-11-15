@@ -1,24 +1,21 @@
 
 import { createRouter, createWebHashHistory } from "vue-router"
 import tutorial from '&/views/Tutorial.vue'
-import final from '&/views/Final.vue'
-import components from '&/views/pages/Components_example.vue'
+
 import page_1 from '&/views/pages/Page_1.vue'
 import page_2 from '&/views/pages/Page_2.vue'
-import page_3 from '&/views/pages/Page_3.vue'
-import page_4 from '&/views/pages/Page_4.vue'
+
 import { gsap } from 'gsap';
 
 
 
 const routes = [
     { path: '/', name: 'tutorial-page', component: tutorial, props: true },
-    { path: '/components_example', name: 'components_example', component: components, props: true },
-    { path: '/final', name: 'final', component: final, props: true },
+
     { path: '/page_1', name: 'page_1', component: page_1, props: true },
+
     { path: '/page_2', name: 'page_2', component: page_2, props: true },
-    { path: '/page_3', name: 'page_3', component: page_3, props: true },
-    { path: '/page_4', name: 'page_4', component: page_4, props: true },
+
 
 ]
 

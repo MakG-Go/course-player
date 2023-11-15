@@ -146,3 +146,101 @@ export function testing_1() {
         ]
     }
 }
+
+export function storageGame_1() {
+
+    return {
+
+        difficulty: [
+            {
+                text: '30 секунд',
+                time: 30
+            },
+            {
+                text: '1 минута',
+                time: 60
+            },
+            {
+                text: '2 минуты',
+                time: 120
+            },
+        ],
+        cashDesks: [
+            {
+                backgroundColor: 'rgba(204, 240, 238, 1)',
+                img: 'user/img/storage-game/cash-desk.png',
+            },
+            {
+                backgroundColor: 'rgba(255, 235, 185, 1)',
+                img: 'user/img/storage-game/cash-desk.png',
+            },
+            {
+                backgroundColor: 'rgba(230, 245, 215, 1)',
+                img: 'user/img/storage-game/cash-desk.png',
+            },
+        ],
+        draggableElems: [
+            {
+                img: 'user/img/storage-game/cig1.png'
+            },
+            {
+                img: 'user/img/storage-game/cig2.png'
+            },
+            {
+                img: 'user/img/storage-game/cig3.png'
+            },
+        ]
+
+    }
+
+}
+
+export function flipCardGame() {
+    return {
+        difficulty: [
+            {
+                text: '1 минута',
+                time: 60
+            },
+            {
+                text: '2 минута',
+                time: 120
+            },
+            {
+                text: '3 минута',
+                time: 180
+            },
+        ],
+        backfaceImg: './images/flipcard-game/card-backface.png',
+        cardPairs: [
+            {
+                index: 0,
+                img: './images/flipcard-game/card1.png',
+            },
+            {
+                index: 1,
+                img: './images/flipcard-game/card2.png',
+            },
+            {
+                index: 2,
+                img: './images/flipcard-game/card3.png',
+            },
+            {
+                index: 3,
+                img: './images/flipcard-game/card4.png',
+            },
+            {
+                index: 4,
+                img: './images/flipcard-game/card5.png',
+            },
+            {
+                index: 5,
+                img: './images/flipcard-game/card6.png',
+            },
+            {
+                index: 6,
+                img: './images/flipcard-game/card7.png',
+            },
+        ]
+    }
+}
